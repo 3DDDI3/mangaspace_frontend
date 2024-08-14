@@ -14,6 +14,7 @@ export default defineConfig({
             input: [
                 // 'resources/css/app.css',
                 'resources/sass/app.sass',
+                'resources/js/jquery-3.7.1.js',
                 'resources/js/app.js'
             ],
             refresh: true,

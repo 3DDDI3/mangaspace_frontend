@@ -1,7 +1,10 @@
+import axios from 'axios';
+
 import Echo from 'laravel-echo';
 
 import Pusher from 'pusher-js';
 window.Pusher = Pusher;
+
 
 window.Echo = new Echo({
     broadcaster: 'reverb',
@@ -11,8 +14,32 @@ window.Echo = new Echo({
     wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
+    authorizer: (channel, options) => {
+        return {
+            authorize: (socketId, callback) => {
+                window.axios = axios;
+                axios.defaults.headers.common['Authorization'] = `Bearer ${getCookie('_t')}`;
+                axios.post('http://api.mangaspace.ru:8082/api/broadcasting/auth', {
+                    socket_id: socketId,
+                    channel_name: channel.name
+                })
+                    .then(response => {
+                        callback(false, response.data);
+                    })
+                    .catch(error => {
+                        callback(true, error);
+                    });
+            }
+        };
+    },
 });
 
-window.Echo.channel("TestChannel").listen("TestEvent", (event) => {
-    console.log(event);
-});
+// window.Echo.channel("TestChannel").listen("TestEvent", (event) => {
+//     console.log(event);
+// });
+
+
+function getCookie(name) {
+    var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}

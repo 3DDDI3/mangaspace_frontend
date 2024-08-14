@@ -1,6 +1,8 @@
 import axios from 'axios';
 window.axios = axios;
 
+
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
@@ -10,3 +12,29 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 import './echo';
+
+$("input[name='login']").on("click", function (e) {
+    e.preventDefault();
+    window.axios.defaults.withCredentials = true;
+    window.axios.defaults.withXSRFToken = true;
+    window.axios.get('http://api.mangaspace.ru:8082/api/auth/csrf-cookie',).then(response => {
+        const data = {
+            name: 'admin',
+            password: '1234',
+        };
+        window.axios.post('http://api.mangaspace.ru:8082/v1.0/auth/login', data);
+    });
+});
+
+$("input[name='logout']").on("click", function (e) {
+    e.preventDefault();
+    window.axios.defaults.withCredentials = true;
+    window.axios.defaults.withXSRFToken = true;
+    window.axios.post('http://api.mangaspace.ru:8082/v1.0/auth/logout').then(response => {
+        console.log(response);
+    });
+});
+
+window.Echo.private('chat.1').listen('TestEvent', (e) => {
+    alert(e.message.message);
+});
