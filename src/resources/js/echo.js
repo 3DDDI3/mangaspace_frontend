@@ -17,9 +17,8 @@ window.Echo = new Echo({
     authorizer: (channel, options) => {
         return {
             authorize: (socketId, callback) => {
-                window.axios = axios;
-                axios.defaults.headers.common['Authorization'] = `Bearer ${getCookie('_t')}`;
-                axios.post('http://api.mangaspace.ru:8082/api/broadcasting/auth', {
+                // axios.defaults.headers.common['Authorization'] = `Bearer ${getCookie('_t')}`;
+                axios.post('http://api.mangaspace.ru:83/api/broadcasting/auth', {
                     socket_id: socketId,
                     channel_name: channel.name
                 })
