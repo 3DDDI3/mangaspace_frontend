@@ -32,6 +32,21 @@ $("input[name='check']").on("click", function () {
     });
 });
 
+window.axios.get(`http://api.mangaspace.ru:83/v1.0/auth/check`)
+    .then(response => {
+        window.Echo.private(`chat.${response.data.user.id}`)
+            .listen('WS\\Scraper\\ParseEvent', (e) => {
+                alert(e.message);
+            });
+    });
+
+$("input[name='parse']").on("click", function () {
+    window.axios.get(`http://api.mangaspace.ru:83/v1.0/scraper/parse`)
+        .then(response => {
+
+        });
+});
+
 $("input[name='logout']").on("click", function (e) {
     e.preventDefault();
     window.axios.post('http://api.mangaspace.ru:83/v1.0/auth/logout').then(response => {
@@ -39,6 +54,6 @@ $("input[name='logout']").on("click", function (e) {
     });
 });
 
-window.Echo.private('chat.1').listen('TestEvent', (e) => {
-    alert(e.message.message);
+window.Echo.channel('test-channel').listen('NewEvent', (e) => {
+    console.log(e);
 });
