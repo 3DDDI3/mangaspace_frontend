@@ -1,17 +1,11 @@
 <?php
 
-use App\Events\TestEvent;
-use Illuminate\Support\Facades\Redis;
+use App\Http\Controllers\Admin\IndexController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/test', function () {
-    TestEvent::dispatch('test');
-});
-
-Route::get('/redis', function () {
-    Redis::set('name', 'Taylor');
+Route::group([
+    'prefix' => 'admin',
+    'ad' => 'admin.'
+], function () {
+    Route::get('/', [IndexController::class, 'login']);
 });

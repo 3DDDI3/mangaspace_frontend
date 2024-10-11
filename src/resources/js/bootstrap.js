@@ -17,7 +17,7 @@ import './echo';
 
 $("input[name='login']").on("click", function (e) {
     e.preventDefault();
-    window.axios.get('http://api.mangaspace.ru:83/api/auth/csrf-cookie',).then(response => {
+    window.axios.get('http://api.mangaspace.ru:83/auth/csrf-cookie',).then(response => {
         const data = {
             name: 'admin',
             password: '1234',
