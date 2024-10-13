@@ -9,3 +9,7 @@ Route::group([
 ], function () {
     Route::get('/', [IndexController::class, 'login']);
 });
+
+Route::get('/', function () {
+    return view('welcome');
+});
