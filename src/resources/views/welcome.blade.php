@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link href="css/propeller.min.css" rel="stylesheet">
+
     <title>Laravel</title>
     @csrf
     @vite(['resources/sass/app.sass', 'resources/js/jquery-3.7.1.js', 'resources/js/app.js'])
@@ -15,6 +17,8 @@
     <input type="button" name="parse" value="Парсить">
 
     <input type="text" name="name" placeholder="название тайтла">
+
+    <button class="btn pmd-ripple-effect btn-primary" type="button"> Primary </button>
 
 </head>
 

@@ -34,7 +34,7 @@ $("input[name='check']").on("click", function () {
 
 window.axios.get(`http://api.mangaspace.ru:83/v1.0/auth/check`)
     .then(response => {
-        window.Echo.private(`chat.${response.data.user.id}`)
+        window.Echo.private(`admin.scraper.1`)
             .listen('WS\\Scraper\\ParseEvent', (e) => {
                 alert(e.message);
             });
