@@ -27,8 +27,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                // 'resources/css/app.css',
-                'resources/sass/app.sass',
+                'resources/sass/mazer.sass',
                 'resources/js/jquery-3.7.1.js',
                 'resources/js/app.js',
                 'resources/admin/js/main.js',

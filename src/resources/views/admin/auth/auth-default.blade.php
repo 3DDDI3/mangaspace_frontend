@@ -15,9 +15,9 @@
     @hasSection('styles')
         @yield('style')
     @else
-        <link rel="stylesheet" crossorigin href="{{ asset('admin_panel/compiled/css/app.css') }}">
-        <link rel="stylesheet" crossorigin href="{{ asset('admin_panel/compiled/css/app-dark.css') }}">
-        <link rel="stylesheet" crossorigin href="{{ asset('admin_panel/compiled/css/auth.css') }}">
+        @vite(['resources/sass/mazer.sass'])
+        {{-- <link rel="stylesheet" crossorigin href="{{ asset('admin_panel/compiled/css/app-dark.css') }}"> --}}
+        {{-- <link rel="stylesheet" crossorigin href="{{ asset('admin_panel/compiled/css/auth.css') }}"> --}}
     @endif
 
     @hasSection('scripts')

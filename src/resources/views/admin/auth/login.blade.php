@@ -1,4 +1,4 @@
-@extends('admin.auth-default')
+@extends('admin.auth.auth-default')
 
 @section('main')
     <div id="auth">
