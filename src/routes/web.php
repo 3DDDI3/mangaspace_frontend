@@ -17,7 +17,7 @@ Route::group([
     'prefix' => 'admin/scraper',
     'as' => 'admin.scraper.'
 ], function () {
-    Route::get('/', [ScraperController::class, 'index']);
+    Route::get('/', [ScraperController::class, 'index'])->name('index');
 });
 
 Route::get('/', function () {

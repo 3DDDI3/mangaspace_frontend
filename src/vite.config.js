@@ -27,10 +27,11 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/sass/mazer.sass',
+                'resources/admin/sass/mazer.sass',
+                'resources/admin/sass/layouts/auth.sass',
                 'resources/js/jquery-3.7.1.js',
                 'resources/js/app.js',
-                'resources/admin/js/main.js',
+                'resources/admin/js/mazer.js',
             ],
             refresh: true,
         }),
