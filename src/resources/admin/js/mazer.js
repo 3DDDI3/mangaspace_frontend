@@ -6,3 +6,5 @@ import './components/sidebar';
 import './initTheme';
 
 import './components/dark';
+
+import './pages/tooltip';

@@ -29,6 +29,8 @@ export default defineConfig({
             input: [
                 'resources/admin/sass/mazer.sass',
                 'resources/admin/sass/layouts/auth.sass',
+                'resources/admin/sass/layouts/scraper.sass',
+                'resources/admin/js/index.js',
                 'resources/js/jquery-3.7.1.js',
                 'resources/js/app.js',
                 'resources/admin/js/mazer.js',

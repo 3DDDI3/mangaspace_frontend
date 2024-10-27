@@ -21,7 +21,7 @@
     @hasSection('scripts')
         @yield('scripts')
     @else
-        <script src="{{ asset('admin_panel/static/js/initTheme.js') }}"></script>
+        @vite(['resources/admin/js/mazer.js', 'resources/admin/js/index.js'])></script>
     @endif
 </head>
 

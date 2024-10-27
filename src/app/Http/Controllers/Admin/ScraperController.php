@@ -9,6 +9,6 @@ class ScraperController extends Controller
 {
     public function index()
     {
-        return view('admin.scraper.index');
+        return view('admin.layouts.pages.scraper');
     }
 }
