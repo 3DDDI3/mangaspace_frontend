@@ -1,4 +1,4 @@
-import '../bootstrap';
+import '../modules';
 
 $(function () {
     $("#login").on("submit", function (e) {

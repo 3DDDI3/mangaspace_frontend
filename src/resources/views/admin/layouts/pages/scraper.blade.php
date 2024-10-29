@@ -17,7 +17,6 @@
         </div>
         <div class="page-content">
             <div class="card">
-                <div class="card-header">asd</div>
                 <div class="card-body">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -50,7 +49,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-2">
-                                            <a href="#" class="btn btn-primary w-100">Начать парсинг</a>
+                                            <a href="#" class="btn btn-primary w-100" name="parse">Начать
+                                                парсинг</a>
                                         </div>
                                     </div>
                                 </div>
@@ -69,8 +69,8 @@
                                         </div>
                                         <div class="col-lg-2">
                                             <a class="btn btn-primary w-100" data-bs-toggle="collapse"
-                                                href="#collapseExample" role="button" aria-expanded="false"
-                                                aria-controls="collapseExample">
+                                                href="#collapseExample" role="button" name="getChapters"
+                                                aria-expanded="false" aria-controls="collapseExample">
                                                 Получить главы
                                             </a>
                                         </div>
