@@ -21,7 +21,7 @@
     @hasSection('scripts')
         @yield('scripts')
     @else
-        @vite(['resources/admin/js/mazer.js', 'resources/admin/js/index.js'])></script>
+        @vite(['resources/admin/js/mazer.js', 'resources/admin/js/index.js'])
     @endif
 </head>
 

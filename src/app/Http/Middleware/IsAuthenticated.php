@@ -16,29 +16,22 @@ class IsAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (empty($request->header('cookie'))) {
-            if ($request->route()->getName() != 'admin.login')
-                return redirect()->route('admin.login');
-            else
-                return $next($request);
-        }
-
-        preg_match("/laravel_session=([a-zA-Z0-9]+)/", $request->header('cookie'), $laravel_session);
-        $laravel_session = $laravel_session[1];
-
         $response = Http::withOptions(['verify' => false])
             ->withHeaders([
                 'Accept' => 'application/json',
-                'Origin' => 'http://mangaspace.ru:82',
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 OPR/113.0.0.0',
-                'Cookie' => "laravel_session={$laravel_session}",
+                'Origin' => config('app.url'),
+                'User-Agent' => $request->header('user-agent'),
+                'Cookie' => $request->header('cookie'),
             ])
-            ->get('http://host.docker.internal:83/v1.0/auth/check');
+            ->get(config('app.api_url') . '/v1.0/auth/check');
 
-        if (!$response->ok()) return redirect()->route('admin.login');
-
-        if ($response->ok() && $request->route()->getName() == 'admin.login')
-            return redirect()->route('admin.index');
+        if (!$response->ok() && $request->route()->getName() != 'admin.login')
+            return redirect()->route('admin.login');
+        else {
+            if ($response->ok() && $request->route()->getName() != 'admin.scraper.index')
+                return redirect()->route('admin.scraper.index');
+            /** @todo Поменять путь при успешной авторизации в системе */
+        }
 
         return $next($request);
     }
