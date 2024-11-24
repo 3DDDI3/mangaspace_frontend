@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\ApiRequest;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -16,19 +17,13 @@ class IsAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $response = Http::withOptions(['verify' => false])
-            ->withHeaders([
-                'Accept' => 'application/json',
-                'Origin' => config('app.url'),
-                'User-Agent' => $request->header('user-agent'),
-                'Cookie' => $request->header('cookie'),
-            ])
-            ->get(config('app.api_url') . '/v1.0/auth/check');
+        $apiRequest = new ApiRequest();
+        $apiRequest->send($request, '/v1.0/auth/check', 'get');
 
-        if (!$response->ok() && $request->route()->getName() != 'admin.login')
+        if (!$apiRequest->response->ok() && $request->route()->getName() != 'admin.login')
             return redirect()->route('admin.login');
         else {
-            if ($response->ok() && $request->route()->getName() != 'admin.scraper.index')
+            if ($apiRequest->response->ok() && $request->route()->getName() != 'admin.scraper.index')
                 return redirect()->route('admin.scraper.index');
             /** @todo Поменять путь при успешной авторизации в системе */
         }

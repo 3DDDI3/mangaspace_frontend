@@ -102,11 +102,12 @@
         @yield('main')
 
     </div>
-</body>
 
-@hasSection('sctipts')
-    @yield('scripts')
-@else
-@endif
+    @hasSection('scripts')
+        @yield('scripts')
+    @else
+    @endif
+
+</body>
 
 </html>
