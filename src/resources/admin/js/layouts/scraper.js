@@ -15,7 +15,6 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
 
 $(function () {
     $(".tab-pane.fade.active.show a[name='parse']").on("click", function () {
-
         axios.post(`${api_url}/v1.0/scraper/parse`, { pages: $(this).parents(".row").find(".input-group input[type='text']").val() })
             .then((response) => {
                 console.log(response);
@@ -23,7 +22,10 @@ $(function () {
     });
 
     $(".tab-pane.fade.active.show a[name='getChapters']").on("click", function () {
-        axios.post(`${api_url}/v1.0/scraper/get-chapters`, { url: $(this).parents(".row").find("input[type='text']").val() })
+        const params = {
+            url: $(this).parents(".row").find("input[type='text']").val()
+        };
+        axios.get(`${api_url}/v1.0/scraper/chapters`, { params })
             .then((response) => {
                 console.log(response);
             })
