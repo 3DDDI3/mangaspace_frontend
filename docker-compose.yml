@@ -34,7 +34,7 @@ services:
     build:
       context: dockerfiles
       dockerfile: php.Dockerfile
-    volumes:
+    volumes:  
       - ./src:/var/www/laravel
     networks:
       - frontend

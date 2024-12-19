@@ -10,9 +10,16 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
         .listen('WS\\Scraper\\ResponseReceived', (e) => {
             console.log(e);
         });
+
     Echo.private(`admin.scraper.${response.data.user.id}.chapter-request`)
         .listen('WS\\Scraper\\ChapterRequestSent', (e) => {
             console.log(e);
+        });
+
+    Echo.private(`admin.scraper.${response.data.user.id}.chapter-response`)
+        .listen('WS\\Scraper\\ChapterResponseReceived', (e) => {
+            console.log(e);
+            $(".accordion.accordion-flush").append(e.title);
         });
 });
 
