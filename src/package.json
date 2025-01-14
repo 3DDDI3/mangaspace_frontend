@@ -42,6 +42,7 @@
         "simple-datatables": "^4.0.8",
         "summernote": "0.8.20",
         "sweetalert2": "^11.14.4",
+        "swiper": "^11.2.1",
         "tinymce": "^6.8.5",
         "toastify-js": "^1.12.0"
     },
