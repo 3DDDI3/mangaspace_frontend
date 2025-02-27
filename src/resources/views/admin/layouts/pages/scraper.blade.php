@@ -118,26 +118,14 @@
                                     <div class="row flex-column">
                                         <div class="col">
                                             <h4 class="mt-4 mb-4">Лог</h4>
-                                            <div contenteditable="false" readonly class="form-control logs-textarea">
+                                            <div contenteditable="false" readonly class="form-control logs-textarea"
+                                                style="height: 200px; overflow-y: auto">
                                             </div>
                                         </div>
                                         <div class="col">
                                             <h4 class="mt-4 mb-4">Ошибки</h4>
-                                            <ul class="list-group">
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <span> Biscuit jelly beans macaroon danish pudding.</span>
-                                                    <span class="badge bg-warning badge-pill badge-round ms-1">
-                                                        <i class="bi bi-exclamation-triangle"></i>
-                                                    </span>
-                                                </li>
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <span> Oat cake icing pastry pie carrot</span>
-                                                    <span class="badge bg-danger badge-pill badge-round ms-1">
-                                                        <i class="bi bi-exclamation-circle"></i>
-                                                    </span>
-                                                </li>
+                                            <ul class="list-group error-textarea"
+                                                style="min-height: 200px; background-color: #151521">
                                             </ul>
                                         </div>
                                     </div>
@@ -239,25 +227,13 @@
                                     <div class="row flex-column">
                                         <div class="col">
                                             <h4 class="mt-4 mb-4">Лог</h4>
-                                            <div contenteditable="false" class="form-control logs-textarea"></div>
+                                            <div contenteditable="false" class="form-control logs-textarea"
+                                                style="height: 200px; overflow-y: auto"></div>
                                         </div>
                                         <div class="col">
                                             <h4 class="mt-4 mb-4">Ошибки</h4>
-                                            <ul class="list-group">
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <span> Biscuit jelly beans macaroon danish pudding.</span>
-                                                    <span class="badge bg-warning badge-pill badge-round ms-1">
-                                                        <i class="bi bi-exclamation-triangle"></i>
-                                                    </span>
-                                                </li>
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <span> Oat cake icing pastry pie carrot</span>
-                                                    <span class="badge bg-danger badge-pill badge-round ms-1">
-                                                        <i class="bi bi-exclamation-circle"></i>
-                                                    </span>
-                                                </li>
+                                            <ul class="list-group error-textarea"
+                                                style="min-height: 200px; background-color: #151521">
                                             </ul>
                                         </div>
                                     </div>
@@ -347,25 +323,13 @@
                                     <div class="row flex-column">
                                         <div class="col">
                                             <h4 class="mt-4 mb-4">Лог</h4>
-                                            <div contenteditable="false" class="form-control logs-textarea"></div>
+                                            <div contenteditable="false" class="form-control logs-textarea"
+                                                style="height: 200px; overflow-y: auto"></div>
                                         </div>
                                         <div class="col">
                                             <h4 class="mt-4 mb-4">Ошибки</h4>
-                                            <ul class="list-group">
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <span> Biscuit jelly beans macaroon danish pudding.</span>
-                                                    <span class="badge bg-warning badge-pill badge-round ms-1">
-                                                        <i class="bi bi-exclamation-triangle"></i>
-                                                    </span>
-                                                </li>
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <span> Oat cake icing pastry pie carrot</span>
-                                                    <span class="badge bg-danger badge-pill badge-round ms-1">
-                                                        <i class="bi bi-exclamation-circle"></i>
-                                                    </span>
-                                                </li>
+                                            <ul class="list-group error-textarea"
+                                                style="min-height: 200px; background-color: #151521">
                                             </ul>
                                         </div>
                                     </div>
@@ -380,7 +344,7 @@
         <footer>
             <div class="footer clearfix mb-0 text-muted">
                 <div class="float-start">
-                    <p>2023 &copy; Mazer</p>
+                    <p>{{ \Carbon\Carbon::now()->format('Y') }} &copy; Mangaspace.ru</p>
                 </div>
                 <div class="float-end">
                     <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>

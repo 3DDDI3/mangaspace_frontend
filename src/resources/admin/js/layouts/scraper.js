@@ -46,8 +46,13 @@ function initSwiper() {
 axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
     Echo.private(`admin.${response.data.user.id}.scraper.logError`)
         .listen('WS\\Scraper\\GetErrorEvent', (e) => {
-            console.log(e);
-
+            $(".error-textarea").append(`
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>${e.message}</span>
+                    <span class="badge bg-danger badge-pill badge-round ms-1">
+                        <i class="bi bi-exclamation-circle"></i>
+                    </span>
+                </li>`)
             // let toastLive = $("#liveToast");
             // $(toastLive).find(".toast-body").text(e.message);
             // const toast = new bootstrap.Toast(toastLive);
@@ -113,6 +118,8 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
 
     Echo.private(`admin.${response.data.user.id}.scraper.getChapters`)
         .listen('WS\\Scraper\\GetChaptersEvent', (e) => {
+            console.log(e);
+
             if (e.isLast)
                 $(".chapters .loader-layer").fadeOut(800);
 
@@ -122,7 +129,7 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
     Echo.private(`admin.${response.data.user.id}.scraper.parseChapters`)
         .listen('WS\\Scraper\\ParseChaptersEvent', (e) => {
             if (e.object.isFirst)
-                $(".tab-pane.active.show .titles").html(e.content);
+                $(".tab-pane.active.show .titles div").eq(0).html(e.content);
             else {
                 let elems = ""
 
@@ -188,6 +195,9 @@ $(function () {
             engine: $("a.nav-link.active").data("engine"),
             action: "parseChapters",
         };
+
+        $(".logs-textarea p").remove();
+        $(".error-textarea li").remove();
 
         axios.post(`${api_url}/v1.0/scraper/chapters`, { params })
             .then((response) => {

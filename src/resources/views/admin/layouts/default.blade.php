@@ -69,13 +69,12 @@
                 </div>
                 <div class="sidebar-menu">
                     <ul class="menu">
-                        <li class="sidebar-title">Menu</li>
-
+                        <li class="sidebar-title">Меню</li>
                         <li
-                            class="sidebar-item {{ request()->route()->getName() == 'admin.scraper' ? 'active' : '' }} ">
-                            <a href="#" class='sidebar-link'>
+                            class="sidebar-item {{ request()->route()->getName() == 'admin.titles.index' ? 'active' : '' }} ">
+                            <a href="{{ route('admin.titles.index') }}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
-                                <span>Dashboard</span>
+                                <span>Тайтлы</span>
                             </a>
                         </li>
 
@@ -97,16 +96,17 @@
                     </ul>
                 </div>
             </div>
+
+            @yield('main')
+
         </div>
 
-        @yield('main')
 
-    </div>
 
-    @hasSection('scripts')
-        @yield('scripts')
-    @else
-    @endif
+        @hasSection('scripts')
+            @yield('scripts')
+        @else
+        @endif
 
 </body>
 
