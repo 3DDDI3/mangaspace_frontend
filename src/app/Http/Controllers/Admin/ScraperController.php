@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Services\ApiRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class ScraperController extends Controller
 {
@@ -19,7 +16,7 @@ class ScraperController extends Controller
             "/v1.0/ws/info",
             "get",
             "text/html",
-            ['title' => 'vsevedushhii-citatel']
+            // ['title' => 'solo-leveling']
         );
         $block = $api->response;
 

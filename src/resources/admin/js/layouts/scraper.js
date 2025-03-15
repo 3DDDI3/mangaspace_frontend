@@ -16,29 +16,27 @@ window.bootstrap = bootstrapBundle;
 //     backgroundColor: "#4fbe87",
 // }).showToast()
 
-
-
 function initSwiper() {
-    const swiper = new Swiper('.swiper', {
-        // Optional parameters
-        direction: 'horizontal',
-        loop: false,
+    Array.from($(".titles .swiper")).forEach((slider) => {
+        let id = $(slider).data("swiper-id");
 
-        // If we need pagination
-        pagination: {
-            el: '.swiper-pagination',
-        },
+        new Swiper(slider, {
+            direction: 'horizontal',
+            loop: false,
 
-        // Navigation arrows
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
+            pagination: {
+                el: `.swiper-pagination_${id}`,
+            },
 
-        // And if we need scrollbar
-        scrollbar: {
-            el: '.swiper-scrollbar',
-        },
+            navigation: {
+                nextEl: `.swiper-button-next_${id}`,
+                prevEl: `.swiper-button-prev_${id}`,
+            },
+
+            scrollbar: {
+                el: `.swiper-scrollbar_${id}`,
+            },
+        });
     });
 }
 
@@ -73,46 +71,91 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
         .listen('WS\\Scraper\\ParseTitlesEvent', (e) => {
             $(".logs-textarea p").remove();
 
-            if (typeof e.content != 'object')
-                $(".tab-pane.active.show .titles .col-lg-8").eq(0).append(e.content);
+            if (e.content.chapterDTO[0].isFirst && e.obj.covers != undefined) {
+                console.log(e);
+                let covers = "";
+                e.obj.covers.forEach(cover => {
+                    covers += `
+                        <div class="swiper-slide">
+                            <img src="/media/${cover.path}" alt="">
+                        </div>`;
+                });
+
+                let html = `
+                    <div class="accordion accordion-flush" id="accordionFlushTitle${e.obj_id}">
+                           <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading${e.obj_id}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapse${e.obj_id}" aria-expanded="false"
+                                    aria-controls="flush-collapse${e.obj_id}">
+                                    ${e.obj.name}
+                                </button>
+                            </h2>
+                            <div id="flush-collapse${e.obj_id}" class="accordion-collapse collapse"
+                                aria-labelledby="flush-collapse${e.obj_id}" data-bs-parent="#accordionFlushTitle${e.obj_id}">
+                                <div class="accordion-body">
+                                    <div class="swiper cover-swiper mx-0 mb-4" data-swiper-id="t${e.obj_id}">
+                                        <div class="swiper-wrapper">
+                                            ${covers}
+                                        </div>
+                                        <div class="swiper-pagination swiper-pagination_t${e.obj_id}"></div>
+                                        <div class="swiper-button-prev swiper-button-prev_t${e.obj_id}"></div>
+                                        <div class="swiper-button-next swiper-button-next_t${e.obj_id}"></div>
+                                        <div class="swiper-scrollbar swiper-scrollbar_t${e.obj_id}"></div>
+                                    </div>
+                                    <p><b>Русское название:</b>${e.obj.name}</p>
+                                    <p><b>Английское название:</b>${e.obj.altName ?? ""}</p>
+                                    <p><b>Другие названия:</b>${e.obj.otherNames ?? ""}</p>
+                                    <p><b>Категория:</b>${e.obj.type}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                $(".tab-pane.active.show .titles .col-lg-8").eq(0).append(html);
+            }
             else {
-                let elems = ""
-                console.log($(".tab-pane.active.show .titles .accordion-button"));
+                let elems = "";
+                console.log(e);
                 e.obj.images.forEach(el => {
                     elems += ` 
                         <div class="swiper-slide">
-                           <img src="/media/${el}" alt="">
+                           <img loading="lazy" src="/media/${el}" alt="">
                         </div>
+                        <div class="swiper-lazy-preloader"></div>
                         `;
                 });
 
                 let html = `
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-heading_${e.obj.number}">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_${e.obj.number}" aria-expanded="false" aria-controls="flush-collapse_${e.obj.number}">
-                            Глава ${e.obj.number}
-                        </button>
-                    </h2>
-                    <div id="flush-collapse_${e.obj.number}" class="accordion-collapse collapse" aria-labelledby="flush-collapse_${e.obj.number}" data-bs-parent="#accordionFlushExample1" style="">
-                        <div class="accordion-body">
-                            <div class="swiper">
-                                <div class="swiper-wrapper">
-                                    ${elems}
+                    <div class="accordion-item position-relative">
+                        <h2 class="accordion-header chapter-accordion-body" id="flush-heading_${e.obj.number}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_${e.obj.number}" aria-expanded="false" aria-controls="flush-collapse_${e.obj.number}">
+                                Глава ${e.obj.number}
+                            </button>
+                            <div class="btn-group d-flex column-gap-2" role="group" aria-label="Basic example">
+                                <a class="action-btn image-edit-btn btn icon btn-primary" href="/admin/titles/solo-leveling/chapters/0" target="_blank">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            </div>
+                        </h2>
+                        <div id="flush-collapse_${e.obj.number}" class="accordion-collapse accordion-collapse-chapter collapse" aria-labelledby="flush-collapse_${e.obj.number}">
+                            <div class="accordion-body accordion-chapter px-0 pt-0">
+                                <div class="swiper w-100" data-swiper-id="c${e.obj.number}">
+                                    <div class="swiper-wrapper">
+                                        ${elems}
+                                    </div>
                                 </div>
-                                <div class="swiper-button-prev"></div>
-                                <div class="swiper-button-next"></div>
-                                <div class="swiper-scrollbar"></div>
+                                <div class="swiper-button-prev swiper-button-prev_c${e.obj.number}"></div>
+                                <div class="swiper-button-next swiper-button-next_c${e.obj.number}"></div>
+                                <div class="swiper-scrollbar swiper-scrollbar_c${e.obj.number}"></div>
                             </div>
                         </div>
                     </div>
-                </div>
-                `;
+                    `;
 
-                Array.from($(".tab-pane.active.show .titles .accordion-button")).forEach(el => {
-                    if ($(el).text().replaceAll(/\s{2,}/g, "") == e.content.name)
-                        $(el).parents(".accordion-item").find(".accordion").append(html);
-                });
+                $(`.tab-pane.active.show .titles #flush-collapse${e.obj_id} .accordion-body`).append(html);
+
             }
+
             initSwiper();
         });
 
@@ -128,37 +171,47 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
 
     Echo.private(`admin.${response.data.user.id}.scraper.parseChapters`)
         .listen('WS\\Scraper\\ParseChaptersEvent', (e) => {
-            if (e.object.isFirst)
+            if (e.object.isFirst) {
                 $(".tab-pane.active.show .titles div").eq(0).html(e.content);
+                initSwiper();
+            }
             else {
                 let elems = ""
 
                 e.obj.images.forEach(el => {
                     elems += ` 
-                        <li>
+                        <div class="swiper-slide">
                             <img src="/media/${el}" alt="">
-                        </li>`;
+                        </div>`;
                 });
 
                 let html = `
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="flush-heading_${e.object.number}">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_${e.object.number}" aria-expanded="false" aria-controls="flush-collapse_${e.object.number}">
-                            Глава ${e.object.number}
+                            Глава ${e.object.number} (переводчик ${e.object.translator.name})
                         </button>
                     </h2>
-                    <div id="flush-collapse_${e.object.number}" class="accordion-collapse collapse" aria-labelledby="flush-collapse_${e.object.number}" data-bs-parent="#accordionFlushExample1" style="">
-                        <div class="accordion-body">
-                            <ul>
-                               ${elems}
-                            </ul>
+                    <div id="flush-collapse_${e.object.number}" class="accordion-collapse collapse accordion-chapter" aria-labelledby="flush-collapse_${e.object.number}" data-bs-parent="#accordionFlushExample1">
+                        <div class="accordion-body accordion-chapter pt-0">
+                            <div class="swiper chapter-swiper w-100" data-swiper-id="${e.object.number}_${e.object.translator.name}">
+                                <div class="swiper-wrapper">
+                                    ${elems}
+                                </div>
+                                <div class="swiper-pagination swiper-pagination_${e.object.number}_${e.object.translator.name}"></div>
+                                <div class="swiper-button-prev swiper-button-prev_${e.object.number}_${e.object.translator.name}"></div>
+                                <div class="swiper-button-next swiper-button-next_${e.object.number}_${e.object.translator.name}"></div>
+                                <div class="swiper-scrollbar swiper-scrollbar_${e.object.number}_${e.object.translator.name}"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 `;
                 $(".tab-pane.active.show .titles .accordion").eq(1).append(html);
             }
+            initSwiper();
         });
+
 });
 
 
