@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
         target: '#uppy-dashboard',
         // hideUploadButton: true,
         width: '100%',
-        height: '300px',
+        height: '500px',
         showProgressDetails: true,
     });
 
@@ -222,7 +222,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     $("a.image-edit-btn").on("click", function () {
         let src = $(this).parents(".accordion-item").find(".accordion-body img").attr("src");
-        let name = src.split("\\")[src.split("\\").length - 1];
+
+        let name = src.split("/")[src.split("/").length - 1];
         let id = $(this).parents(".accordion-item").find(".accordion-collapse").attr("id").match(/flush-collapse-(\d+)/)[1];
 
         fetch(`http://mangaspace.ru:82/${src}`) // Получаем изображение по URL
@@ -237,6 +238,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                 };
 
+                console.log(file);
+
+                uppy.cancelAll();
                 // Добавляем файл в Uppy
                 uppy.addFile(file);
             })

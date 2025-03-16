@@ -41,7 +41,7 @@
                     </nav>
                 </div>
                 <div class="card-body">
-                    <div class="row col-8 mb-4">
+                    <div class="row col-xs-12 col-xl-10 mb-4">
                         <h3>Основная информация</h3>
                         <div class="col-12">
                             <div class="input-group mb-3">
@@ -111,8 +111,10 @@
                                         <div id="flush-collapse-{{ $loop->index + 1 }}" class="accordion-collapse collapse"
                                             aria-labelledby="flush-heading-{{ $loop->index + 1 }}"
                                             data-bs-parent="#accordionFlushExample">
-                                            <div class="accordion-body">
-                                                <img src="/media/{{ $chapter['path'] . $image }}" alt="">
+                                            <div class="accordion-body p-0">
+                                                <img class="w-100"
+                                                    src="/media/{{ $chapter['path'] . $chapter['translator_branch'][0]['translator']['slug'] . '/' . $image }}"
+                                                    alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -137,8 +139,8 @@
         </footer>
     </div>
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle"
-        style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Редактирование изображения

@@ -69,11 +69,9 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
 
     Echo.private(`admin.${response.data.user.id}.scraper.parseTitles`)
         .listen('WS\\Scraper\\ParseTitlesEvent', (e) => {
-            $(".logs-textarea p").remove();
-
-            if (e.content.chapterDTO[0].isFirst && e.obj.covers != undefined) {
-                console.log(e);
+            if (e.content.chapterDTO[0].isFirst) {
                 let covers = "";
+
                 e.obj.covers.forEach(cover => {
                     covers += `
                         <div class="swiper-slide">
@@ -84,12 +82,18 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                 let html = `
                     <div class="accordion accordion-flush" id="accordionFlushTitle${e.obj_id}">
                            <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-heading${e.obj_id}">
+                            <h2 class="accordion-header title-accordion-header" id="flush-heading${e.obj_id}">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapse${e.obj_id}" aria-expanded="false"
                                     aria-controls="flush-collapse${e.obj_id}">
                                     ${e.obj.name}
                                 </button>
+                                <div class="btn-group d-flex column-gap-2" role="group" aria-label="Basic example">
+                                    <a class="action-btn image-edit-btn btn icon btn-primary" href="/admin/titles/${e.content.url}"
+                                        target="_blank">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                </div>
                             </h2>
                             <div id="flush-collapse${e.obj_id}" class="accordion-collapse collapse"
                                 aria-labelledby="flush-collapse${e.obj_id}" data-bs-parent="#accordionFlushTitle${e.obj_id}">
@@ -103,10 +107,10 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                                         <div class="swiper-button-next swiper-button-next_t${e.obj_id}"></div>
                                         <div class="swiper-scrollbar swiper-scrollbar_t${e.obj_id}"></div>
                                     </div>
-                                    <p><b>Русское название:</b>${e.obj.name}</p>
-                                    <p><b>Английское название:</b>${e.obj.altName ?? ""}</p>
-                                    <p><b>Другие названия:</b>${e.obj.otherNames ?? ""}</p>
-                                    <p><b>Категория:</b>${e.obj.type}</p>
+                                    <p><b>Русское название:</b> ${e.obj.name}</p>
+                                    <p><b>Английское название:</b> ${e.obj.altName ?? ""}</p>
+                                    <p><b>Другие названия:</b> ${e.obj.otherNames ?? ""}</p>
+                                    <p><b>Категория:</b> ${e.obj.type}</p>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +119,9 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
             }
             else {
                 let elems = "";
+
                 console.log(e);
+
                 e.obj.images.forEach(el => {
                     elems += ` 
                         <div class="swiper-slide">
@@ -127,17 +133,17 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
 
                 let html = `
                     <div class="accordion-item position-relative">
-                        <h2 class="accordion-header chapter-accordion-body" id="flush-heading_${e.obj.number}">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_${e.obj.number}" aria-expanded="false" aria-controls="flush-collapse_${e.obj.number}">
-                                Глава ${e.obj.number}
+                        <h2 class="accordion-header chapter-accordion-header" id="flush-heading_${e.obj.number}_${e.obj.translator.slug.replace(/\s/, "")}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_${e.obj.number}_${e.obj.translator.slug.replace(/\s/, "")}" aria-expanded="false" aria-controls="flush-collapse_${e.obj.number}_${e.obj.translator.slug.replace(/\s/, "")}">
+                                Глава ${e.obj.number} (переводчик ${e.obj.translator.name})
                             </button>
                             <div class="btn-group d-flex column-gap-2" role="group" aria-label="Basic example">
-                                <a class="action-btn image-edit-btn btn icon btn-primary" href="/admin/titles/solo-leveling/chapters/0" target="_blank">
+                                <a class="action-btn image-edit-btn btn icon btn-primary" href="/admin/titles/${e.content.url}/chapters/${e.obj.number}?translator=${e.obj.translator.slug.replace(/\s/, "")}" target="_blank">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                             </div>
                         </h2>
-                        <div id="flush-collapse_${e.obj.number}" class="accordion-collapse accordion-collapse-chapter collapse" aria-labelledby="flush-collapse_${e.obj.number}">
+                        <div id="flush-collapse_${e.obj.number}_${e.obj.translator.slug.replace(/\s/, "")}" class="accordion-collapse accordion-collapse-chapter collapse" aria-labelledby="flush-collapse_${e.obj.number}_${e.obj.translator.slug.replace(/\s/, "")}">
                             <div class="accordion-body accordion-chapter px-0 pt-0">
                                 <div class="swiper w-100" data-swiper-id="c${e.obj.number}">
                                     <div class="swiper-wrapper">
@@ -153,7 +159,6 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                     `;
 
                 $(`.tab-pane.active.show .titles #flush-collapse${e.obj_id} .accordion-body`).append(html);
-
             }
 
             initSwiper();
