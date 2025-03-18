@@ -22,6 +22,7 @@ export default defineConfig({
                 "node_modules/perfect-scrollbar",
             ),
             "~@fontsource": resolve(__dirname, "node_modules/@fontsource"),
+            "~choices.js": resolve(__dirname, "node_modules/choices.js"),
         },
     },
     plugins: [
@@ -37,6 +38,7 @@ export default defineConfig({
                 'resources/admin/js/mazer.js',
                 'resources/js/jquery-3.7.1.js',
                 'resources/js/app.js',
+                'resources/admin/js/layouts/title.js',
             ],
             refresh: true,
         }),

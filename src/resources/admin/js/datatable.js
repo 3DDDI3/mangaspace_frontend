@@ -9,6 +9,8 @@ import XHRUpload from '@uppy/xhr-upload';
 import ImageEditor from '@uppy/image-editor';
 import ru from '@uppy/locales/lib/ru_RU';
 
+// import Choices from 'choices.js';
+
 // Импортируем стили Uppy
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';

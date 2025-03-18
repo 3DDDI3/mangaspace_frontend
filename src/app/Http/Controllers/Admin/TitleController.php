@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\Permission;
+use App\Enums\PersonType;
 use App\Http\Controllers\Controller;
 use App\Services\ApiRequest;
 use Illuminate\Http\Request;
@@ -70,6 +71,15 @@ class TitleController extends Controller
 
         $chapters = $api->response->json();
 
+        $api->send(
+            $request,
+            "/v1.0/persons",
+            "get",
+            parameters: ['type' => PersonType::Translator->value]
+        );
+
+        $translators = $api->response->json();
+
         $titlesData = $chapters['data'];
         $perPage = $chapters['meta']['per_page'];
         $currentPage = $chapters['meta']['current_page'];
@@ -80,14 +90,13 @@ class TitleController extends Controller
             $total,
             $perPage,
             $currentPage,
-            [
-                'path' => Paginator::resolveCurrentPath(),
-            ]
+            ['path' => Paginator::resolveCurrentPath()]
         );
 
         return view('admin.layouts.pages.title', [
             'title' => $title,
             'chapters' => $paginator,
+            'translators' => $translators,
         ]);
     }
 }

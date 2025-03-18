@@ -2,10 +2,12 @@
 
 @section('styles')
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    @vite(['resources/admin/js/datatable.js', 'resources/admin/sass/layouts/title.sass'])
+
+    @vite(['resources/admin/sass/layouts/title.sass', 'resources/admin/js/layouts/title.js'])
 @endsection
 
 @section('main')
+    </script>
     {{-- <div id="image-container">
         <img src="{{ asset('media/Vsevedushchy chitatel/1/224/1_1.webp') }}" alt="Image" id="clickable-image"
             style="cursor: pointer; max-width: 100%;">
@@ -86,17 +88,20 @@
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="type">Переводчик</label>
                                     <select class="form-select" id="type">
+
                                         <option selected="">{{ $title['type'] }}</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        {{-- @foreach ($tranlators as $tranlator)
+                                            <option value="{{ $translator['id'] }}">{{ $translator['name'] }}</option>
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1" class="form-label">Альтерантивные названия</label>
+                                <label for="exampleFormControlTextarea1" class="form-label">Альтерантивные
+                                    названия</label>
                                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{ $title['description'] }}</textarea>
                             </div>
                         </div>
@@ -119,12 +124,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <select class="choices form-select multiple-remove" multiple="multiple">
+                                    @foreach ($translators as $translator)
+                                        <option value="{{ $translator['id'] }}">{{ $translator['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="translateStatus">Статус перевода</label>
                                     <select class="form-select" id="translateStatus">
-                                        <option selected="">{{ $title['translateStatus'] }}</option>
+                                        <option>{{ $title['translateStatus'] }}</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -156,7 +170,7 @@
                                         <tr>
                                             <th>Глава</th>
                                             <th>Том</th>
-                                            <th>Название</th>
+                                            <th class="w-50">Название</th>
                                             <th>Дата добавления</th>
                                             <th></th>
                                         </tr>
@@ -174,13 +188,13 @@
                                                 <td>{{ $chapter['name'] }}</td>
                                                 <td>{{ $chapter['created_at'] }}</td>
                                                 <td>
-                                                    <div class="btn-group d-flex column-gap-2 ps-2" role="group"
-                                                        aria-label="Basic example">
+                                                    <div class="btn-group d-flex justify-content-end column-gap-2 ps-2"
+                                                        role="group" aria-label="Basic example">
                                                         <a href="{{ route('admin.titles.chapter.index', ['slug' => $title['slug'], 'chapter' => $chapter['number']]) }}"
-                                                            class="action-btn image-edit-btn btn icon btn-primary">
+                                                            class="action-btn edit-btn btn icon btn-primary">
                                                             <i class="bi bi-pencil"></i>
                                                         </a>
-                                                        <a class="action-btn image-delete-btn btn icon btn-danger">
+                                                        <a class="action-btn delete-btn btn icon btn-danger">
                                                             <i class="bi bi-trash"></i>
                                                         </a>
                                                     </div>

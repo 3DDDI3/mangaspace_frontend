@@ -1,3 +1,5 @@
+@import '~choices.js/public/assets/styles/choices'
+
 .images
     .icon
         width: 1.5em !important
@@ -10,14 +12,41 @@
 td .btn-group
             justify-content: center
 
-.action-btn
-    display: flex !important
+.edit-btn
     flex-grow: 0 !important
-    align-content: center
+    padding: 4px
+    display: flex
+    align-items: center
     justify-content: center
-    & i
-        font-size: 1em
-        height: 1em !important
-        width: 1em !important
-        &::before
-            vertical-align: super
+    height: min-content
+    i
+        font-size: 1.2em !important
+        width: 1.2em !important
+        height: 1.2em !important
+        display: flex
+        align-items: center
+        justify-content: center
+
+.delete-btn
+    flex-grow: 0 !important
+    padding: 4px
+    display: flex
+    align-items: center
+    justify-content: center
+    height: min-content
+    i
+        font-size: 1.2em !important
+        width: 1.2em !important
+        height: 1.2em !important
+        display: flex
+        align-items: center
+        justify-content: center
+
+.choices.is-disabled .choices__input
+    background-color: inherit !important
+
+.choices.is-disabled .choices__list
+    background-color: var(--bs-body-bg-choices-disbled)
+
+.choices[data-type*=select-multiple] .choices__button
+    border-left-color: var(--bs-body-bg-choices-disbled)

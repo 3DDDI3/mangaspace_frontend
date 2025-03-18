@@ -69,11 +69,14 @@
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="type">Переводчик</label>
                                     <select class="form-select" id="type">
-                                        <option selected="">{{ $chapter['translator_branch'][0]['translator']['name'] }}
-                                        </option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        @foreach ($translators as $translator)
+                                            @if ($translator['name'] == $chapter['translator_branch'][0]['translator']['name'])
+                                                <option selected value="{{ $translator['id'] }}">{{ $translator['name'] }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $translator['id'] }}">{{ $translator['name'] }}</option>
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
