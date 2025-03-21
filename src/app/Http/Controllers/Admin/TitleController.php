@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\Permission;
 use App\Enums\PersonType;
 use App\Http\Controllers\Controller;
 use App\Services\ApiRequest;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Http;
 
 class TitleController extends Controller
 {
@@ -52,7 +52,6 @@ class TitleController extends Controller
 
     public function show(Request $request, $slug)
     {
-
         $api = new ApiRequest();
         $api->send(
             $request,
@@ -64,21 +63,48 @@ class TitleController extends Controller
 
         $api->send(
             $request,
+            "/v1.0/persons",
+            "get",
+        );
+
+        $translators = collect($api->response->json());
+
+        $api->send(
+            $request,
+            "/v1.0/titles/{$slug}/persons",
+            "get",
+            parameters: ['type' => PersonType::Translator->value]
+        );
+
+        $currentTranslators = collect($api->response->json());
+
+        $api->send(
+            $request,
+            "/v1.0/title-translate-statuses",
+            "get",
+        );
+
+        $translateStatuses = $api->response->json();
+
+        $api->send(
+            $request,
+            "/v1.0/title-categories",
+            "get"
+        );
+
+        $categories = $api->response->json();
+
+        $api->send($request, "/v1.0/title-statuses", "get");
+        $titleStatuses = $api->response->json();
+
+        $api->send(
+            $request,
             "/v1.0/titles/{$slug}/chapters",
             "get",
             parameters: ['offset' => 15],
         );
 
         $chapters = $api->response->json();
-
-        $api->send(
-            $request,
-            "/v1.0/persons",
-            "get",
-            parameters: ['type' => PersonType::Translator->value]
-        );
-
-        $translators = $api->response->json();
 
         $titlesData = $chapters['data'];
         $perPage = $chapters['meta']['per_page'];
@@ -93,10 +119,24 @@ class TitleController extends Controller
             ['path' => Paginator::resolveCurrentPath()]
         );
 
+        /**
+         * Для ззапросов и основного сайта
+         */
+        // dd(Http::withHeaders([
+        //     'Accept' => $accept ?? "application/json",
+        //     'Origin' => config('app.url'),
+        // ])
+        //     ->withToken(config('app.api_token'))
+        //     ->send("get", config('app.api_url') . "/v1.0/title-categories")->json());
+
         return view('admin.layouts.pages.title', [
             'title' => $title,
             'chapters' => $paginator,
             'translators' => $translators,
+            'currentTranslators' => $currentTranslators,
+            'titleStatuses' => $titleStatuses,
+            'categories' => $categories,
+            'translateStatuses' => $translateStatuses,
         ]);
     }
 }

@@ -203,6 +203,18 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Ошибка при загрузке файлов.');
         }
     });
+    uppy.on('save', (result) => {
+        const editedFile = new File([editedImageObject.imageBase64], file.name, {
+            type: file.type,
+        });
+        uppy.removeFile(file.id);
+        uppy.addFile({
+            name: file.name,
+            type: file.type,
+            data: editedFile,
+        });
+
+    });
 
     // // Обработчик клика по изображению
     // document.getElementById('clickable-image').addEventListener('click', function () {

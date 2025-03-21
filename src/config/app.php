@@ -75,6 +75,8 @@ return [
     |
     */
 
+    'api_token' => env('API_TOKEN', ''),
+
     'timezone' => env('APP_TIMEZONE', 'UTC'),
 
     /*

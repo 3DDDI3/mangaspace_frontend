@@ -20,9 +20,9 @@ td .btn-group
     justify-content: center
     height: min-content
     i
-        font-size: 1.2em !important
-        width: 1.2em !important
-        height: 1.2em !important
+        font-size: 1em !important
+        width: 1em !important
+        height: 1em !important
         display: flex
         align-items: center
         justify-content: center
@@ -35,12 +35,19 @@ td .btn-group
     justify-content: center
     height: min-content
     i
-        font-size: 1.2em !important
-        width: 1.2em !important
-        height: 1.2em !important
+        font-size: 1em !important
+        width: 1em !important
+        height: 1em !important
         display: flex
         align-items: center
         justify-content: center
+
+.sorting-button
+    font-size: 1.5em !important
+    display: flex
+    align-items: center
+    justify-content: center
+    cursor: pointer
 
 .choices.is-disabled .choices__input
     background-color: inherit !important
@@ -50,3 +57,73 @@ td .btn-group
 
 .choices[data-type*=select-multiple] .choices__button
     border-left-color: var(--bs-body-bg-choices-disbled)
+
+.choices__inner
+    min-width: 300px
+
+.choices.is-disabled .choices__item .choices__button
+    cursor: not-allowed
+
+.choices.is-disabled .choices__list
+    cursor: not-allowed
+
+.choices.is-disabled .choices__inner
+    cursor: not-allowed
+
+.covers-wrapper
+    display: flex
+    flex-direction: row-reverse
+    justify-content: flex-start
+    & .btn-group-vertical
+        justify-content: flex-start !important
+    & .action-btn
+        flex-grow: 0 !important
+    & .action-btn:first-child
+        border-radius: 0 .25rem 0
+    & .action-btn:last-child
+        border-radius: 0 0 .25em
+
+.active-sortable-row
+    background-color: #1b1b29 !important
+    border-bottom: 1px dashed #fff !important
+
+.cover-slider .cover
+    height: 400px
+
+.table-record-header-wrapper
+    display: flex !important
+    column-gap: 5px
+    align-items: center
+    & .form-select
+        width: auto !important
+
+.sorting
+    position: relative
+    &::before
+        content: "▲"/""
+        opacity: .125
+        position: absolute
+        top: 1px
+        right: 7px
+    &::after
+        content: "▼"/""
+        opacity: .125
+        position: absolute
+        bottom: 1px
+        right: 7px
+    &_asc
+        &::before
+            opacity: 1
+        &::after
+            opacity: .125
+    &_desc
+        &::before
+            opacity: .125
+        &::after
+            opacity: 1
+
+table
+    .sorting
+        cursor: pointer
+    th
+        padding-right: 26px !important

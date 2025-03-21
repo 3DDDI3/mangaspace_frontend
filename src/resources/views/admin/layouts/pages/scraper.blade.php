@@ -111,7 +111,7 @@
                             <div class="row titles">
                                 <div class="col-lg-8">
                                     <div class="card titles">
-                                        {{-- {!! $block !!} --}}
+                                        {!! $block !!}
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -220,7 +220,7 @@
                             <div class="row titles">
                                 <div class="col-lg-8">
                                     <div class="card">
-                                        {{-- {!! $block !!} --}}
+                                        {!! $block !!}
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -316,7 +316,7 @@
                             <div class="row titles">
                                 <div class="col-lg-8">
                                     <div class="card">
-                                        {{-- {!! $block !!} --}}
+                                        {!! $block !!}
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
