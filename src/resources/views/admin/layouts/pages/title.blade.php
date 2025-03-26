@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="row col-8 mb-4">
+                    <div class="row col-xxl-8 col-lg-12 mb-4">
                         <h3>Основная информация</h3>
                         <div class="col-4 mb-3">
                             <h5 class="form-span fw-bolder mt-2">Обложки</h5>
@@ -197,8 +197,8 @@
                                 </div>
                                 <div class="col-8 d-flex justify-content-end">
                                     <label>
-                                        <input type="search" class="form-control form-control-sm" placeholder="Поиск.."
-                                            aria-controls="table2">
+                                        <input type="search" name="chapter-search" class="form-control form-control-sm"
+                                            placeholder="Поиск.." aria-controls="table2">
                                     </label>
                                 </div>
                             </div>
@@ -207,10 +207,10 @@
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th class="sorting sorting_desc">Глава</th>
-                                            <th class="sorting">Том</th>
-                                            <th class="sorting w-50">Название</th>
-                                            <th class="sorting">Дата добавления</th>
+                                            <th data-field="number" class="sorting">Глава</th>
+                                            <th data-field="volume" class="sorting">Том</th>
+                                            <th data-field="name" class="sorting ">Название</th>
+                                            <th data-field="created_at" class="sorting">Дата добавления</th>
                                             <th></th>
                                         </tr>
                                     </thead>

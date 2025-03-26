@@ -39,6 +39,8 @@ export default defineConfig({
                 'resources/js/jquery-3.7.1.js',
                 'resources/js/app.js',
                 'resources/admin/js/layouts/title.js',
+                'resources/admin/js/layouts/chapters.js',
+                'resources/admin/js/layouts/chapter.js',
             ],
             refresh: true,
         }),

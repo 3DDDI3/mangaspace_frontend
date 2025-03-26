@@ -2,7 +2,7 @@
 
 @section('styles')
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    @vite(['resources/admin/js/datatable.js', 'resources/admin/sass/layouts/chapter.sass'])
+    @vite(['resources/admin/js/layouts/chapter.js', 'resources/admin/sass/layouts/chapter.sass'])
 @endsection
 
 @section('main')
@@ -46,22 +46,22 @@
                         <div class="col-12">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="titleName">Том</span>
-                                <input type="text" class="form-control" placeholder="" value="{{ $chapter['volume'] }}"
-                                    aria-label="Username" aria-describedby="titleName">
+                                <input type="text" name="chapter_volume" class="form-control" placeholder=""
+                                    value="{{ $chapter['volume'] }}" aria-label="Username" aria-describedby="titleName">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="titleName">Глава</span>
-                                <input type="text" class="form-control" placeholder="" value="{{ $chapter['number'] }}"
-                                    aria-label="Username" aria-describedby="titleName">
+                                <input type="text" name="chapter_number" class="form-control" placeholder=""
+                                    value="{{ $chapter['number'] }}" aria-label="Username" aria-describedby="titleName">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="titleName">Название</span>
-                                <input type="text" class="form-control" placeholder="" value="{{ $chapter['name'] }}"
-                                    aria-label="Username" aria-describedby="titleName">
+                                <input type="text" name="name" class="form-control" placeholder=""
+                                    value="{{ $chapter['name'] }}" aria-label="Username" aria-describedby="titleName">
                             </div>
                         </div>
                         <div class="col-12">
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="col-12 mb-3 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary me-1 mb-1">Сохранить</button>
+                            <button name="chapter-save" class="btn btn-primary me-1 mb-1">Сохранить</button>
                         </div>
                         <div class="col-12">
                             <h3>Изображения</h3>
@@ -111,7 +111,9 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        <div id="flush-collapse-{{ $loop->index + 1 }}" class="accordion-collapse collapse"
+                                        <div id="flush-collapse-{{ $loop->index + 1 }}"
+                                            data-chapter-id="{{ $chapter['translator_branch'][0]['id'] }}"
+                                            class="accordion-collapse collapse"
                                             aria-labelledby="flush-heading-{{ $loop->index + 1 }}"
                                             data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body p-0">

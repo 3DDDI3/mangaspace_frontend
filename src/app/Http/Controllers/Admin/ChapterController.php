@@ -18,7 +18,7 @@ class ChapterController extends Controller
             "get",
             parameters: ['slug' => $slug]
         );
-        $title = $api->response->json();
+        $title = $api->response->json()['data'][0];
 
         $api->send(
             $request,

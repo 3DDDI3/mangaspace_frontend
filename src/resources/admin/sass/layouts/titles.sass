@@ -1,1 +1,42 @@
 @import "choices.js/src/styles/choices"
+
+.sorting
+    position: relative
+    &::before
+        content: "▲"/""
+        opacity: .125
+        position: absolute
+        top: 1px
+        right: 7px
+    &::after
+        content: "▼"/""
+        opacity: .125
+        position: absolute
+        bottom: 1px
+        right: 7px
+    &_asc
+        &::before
+            opacity: 1
+        &::after
+            opacity: .125
+    &_desc
+        &::before
+            opacity: .125
+        &::after
+            opacity: 1
+
+table
+    .sorting
+        cursor: pointer
+    th
+        padding-right: 26px !important
+
+.table-record-header-wrapper
+    display: flex !important
+    column-gap: 5px
+    align-items: center
+    & .form-select
+        width: auto !important
+
+.action-btn
+    flex-grow: 0 !important

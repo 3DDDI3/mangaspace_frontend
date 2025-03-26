@@ -19,7 +19,7 @@ class TitleController extends Controller
             $request,
             "/v1.0/titles",
             "get",
-            parameters: ['page' => !isset($request->page) ? 1 : $request->page]
+            // parameters: ['page' => !isset($request->page) ? 1 : $request->page]
         );
         $titles = $api->response->json();
 
@@ -59,7 +59,8 @@ class TitleController extends Controller
             "get",
             parameters: ['slug' => $slug]
         );
-        $title = $api->response->json();
+
+        $title = $api->response->json()['data'][0];
 
         $api->send(
             $request,
@@ -101,7 +102,6 @@ class TitleController extends Controller
             $request,
             "/v1.0/titles/{$slug}/chapters",
             "get",
-            parameters: ['offset' => 15],
         );
 
         $chapters = $api->response->json();
@@ -118,7 +118,6 @@ class TitleController extends Controller
             $currentPage,
             ['path' => Paginator::resolveCurrentPath()]
         );
-
         /**
          * Для ззапросов и основного сайта
          */
