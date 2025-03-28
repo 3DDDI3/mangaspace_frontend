@@ -6,6 +6,7 @@ use App\Enums\PersonType;
 use App\Http\Controllers\Controller;
 use App\Services\ApiRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ChapterController extends Controller
 {
@@ -26,6 +27,8 @@ class ChapterController extends Controller
             "get"
         );
         $chapter = $api->response->json();
+
+        // dd(Storage::disk('shared')->url("titles/Podnyatie urovnya v odinochku/1/0/Assley Team/1.webp"));
 
         $api->send(
             $request,

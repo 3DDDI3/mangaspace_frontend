@@ -10,6 +10,7 @@ use App\Services\ApiRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -31,3 +32,7 @@ Route::prefix('admin/scraper')
     ->group(function () {
         Route::get('/', [ScraperController::class, 'index'])->name('index');
     });
+
+Route::get('test', function () {
+    Storage::disk('shared')->delete('1.webp');
+});

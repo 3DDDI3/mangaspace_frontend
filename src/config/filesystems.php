@@ -64,6 +64,14 @@ return [
             'throw' => false,
         ],
 
+        'shared' => [
+            'driver' => 'local',
+            'url' => '/media',
+            'visibility' => 'public',
+            'throw' => false,
+            'root' => storage_path('app/media'),
+        ],
+
     ],
 
     /*
@@ -78,7 +86,7 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        // public_path('storage') => storage_path('app/public'),
         public_path('media') => storage_path('app/media'),
     ],
 
