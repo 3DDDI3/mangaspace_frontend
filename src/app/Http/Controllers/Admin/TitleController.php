@@ -60,7 +60,8 @@ class TitleController extends Controller
             parameters: ['slug' => $slug]
         );
 
-        $title = $api->response->json()['data'][0];
+        if ($api->response->status() == 200)
+            $title = $api->response->json()['data'][0];
 
         $api->send(
             $request,
@@ -106,18 +107,20 @@ class TitleController extends Controller
 
         $chapters = $api->response->json();
 
-        $titlesData = $chapters['data'];
-        $perPage = $chapters['meta']['per_page'];
-        $currentPage = $chapters['meta']['current_page'];
-        $total = $chapters['meta']['total'];
+        if ($api->response->status() == 200) {
+            $titlesData = $chapters['data'] ?? null;
+            $perPage = $chapters['meta']['per_page'] ?? null;
+            $currentPage = $chapters['meta']['current_page'] ?? null;
+            $total = $chapters['meta']['total'] ?? null;
 
-        $paginator = new LengthAwarePaginator(
-            $titlesData,
-            $total,
-            $perPage,
-            $currentPage,
-            ['path' => Paginator::resolveCurrentPath()]
-        );
+            $paginator = new LengthAwarePaginator(
+                $titlesData,
+                $total,
+                $perPage,
+                $currentPage,
+                ['path' => Paginator::resolveCurrentPath()]
+            );
+        }
         /**
          * Для ззапросов и основного сайта
          */
@@ -128,9 +131,12 @@ class TitleController extends Controller
         //     ->withToken(config('app.api_token'))
         //     ->send("get", config('app.api_url') . "/v1.0/title-categories")->json());
 
+        if (empty($title))
+            abort(404);
+
         return view('admin.layouts.pages.title', [
             'title' => $title,
-            'chapters' => $paginator,
+            'chapters' => $paginator ?? collect(),
             'translators' => $translators,
             'currentTranslators' => $currentTranslators,
             'titleStatuses' => $titleStatuses,

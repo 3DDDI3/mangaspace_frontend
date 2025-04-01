@@ -8,6 +8,7 @@
 
 @section('main')
     <div id="main">
+        @csrf
         <header class="mb-3">
             <a href="#" class="burger-btn d-block d-xl-none">
                 <i class="bi bi-justify fs-3"></i>
@@ -63,11 +64,20 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-12">
                             <div class="input-group mb-3">
-                                <span class="input-group-text" id="titleName">Название тайтла</span>
-                                <input type="text" class="form-control" placeholder="" value="{{ $title['name'] }}"
-                                    aria-label="Username" aria-describedby="titleName">
+                                <span class="input-group-text">Название тайтла</span>
+                                <input type="text" id="name" class="form-control" placeholder=""
+                                    value="{{ $title['name'] }}" aria-label="Username" aria-describedby="titleName">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Альтернативное название тайтла</span>
+                                <input type="text" id="altName" class="form-control" placeholder=""
+                                    value="{{ $title['altName'] }}" aria-label="Username" aria-describedby="titleName">
                             </div>
                         </div>
 
@@ -77,14 +87,14 @@
                                     <label class="input-group-text" for="type">Тип тайтла</label>
                                     <select class="form-select" id="type">
                                         @foreach ($categories as $category)
-                                            @if ($title['type'] == $category)
+                                            @if ($title['type'] == $category['category'])
                                                 <option selected value="{{ $category['id'] }}">
-                                                    {{ $category['category'] }}
+                                                    {{ $title['type'] }}
                                                 </option>
                                             @endif
                                         @endforeach
                                         @foreach ($categories as $category)
-                                            @if ($title['type'] != $category)
+                                            @if ($title['type'] != $category['category'])
                                                 <option value="{{ $category['id'] }}">{{ $category['category'] }}
                                                 </option>
                                             @endif
@@ -96,15 +106,15 @@
 
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1" class="form-label">Альтерантивные
+                                <label for="otherNames" class="form-label">Другие
                                     названия</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{ $title['description'] }}</textarea>
+                                <textarea class="form-control" id="otherNames" rows="3">{{ $title['otherNames'] }}</textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1" class="form-label">Описание</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{ $title['description'] }}</textarea>
+                                <label for="description" class="form-label">Описание</label>
+                                <textarea class="form-control" id="description" rows="3">{{ $title['description'] }}</textarea>
                             </div>
                         </div>
                         <div class="col-12">
@@ -134,8 +144,8 @@
                             <div class="form-group">
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="translators">Переводчики</label>
-                                    <select id="translators" class="choices form-select multiple-remove" disabled="disabled"
-                                        multiple="multiple">
+                                    <select id="translators" class="choices form-select multiple-remove"
+                                        disabled="disabled" multiple="multiple">
                                         @foreach ($translators as $translator)
                                             <option {{ $currentTranslators->contains($translator) ? 'selected' : null }}
                                                 value="{{ $translator['id'] }}">
@@ -177,7 +187,7 @@
                             </div>
                         </div>
                         <div class="col-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary me-1 mb-1">Сохранить</button>
+                            <button type="submit" name="saveTitle" class="btn btn-primary me-1 mb-1">Сохранить</button>
                         </div>
                         <div class="col-12">
                             <h3>Главы</h3>
@@ -215,7 +225,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($chapters as $chapter)
+                                        @forelse ($chapters as $chapter)
                                             <tr>
                                                 <td>
                                                     <div class="btn-group d-flex justify-content-center" role="group"
@@ -239,16 +249,24 @@
                                                             class="action-btn edit-btn btn icon btn-primary">
                                                             <i class="bi bi-pencil"></i>
                                                         </a>
-                                                        <a class="action-btn delete-btn btn icon btn-danger">
+                                                        <a data-chapter-number="{{ $chapter['number'] }}"
+                                                            class="action-btn delete-btn btn icon btn-danger">
                                                             <i class="bi bi-trash"></i>
                                                         </a>
                                                     </div>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td class="dataTables-empty" colspan="6">Главы не найдены</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
-                                {{ $chapters->onEachSide(1)->links('vendor.pagination.datatable-bootstrap-5') }}
+                                @if ($chapters->count() > 0)
+                                    {{ $chapters->onEachSide(1)->links('vendor.pagination.datatable-bootstrap-5') }}
+                                @endif
+
                             </div>
                         </div>
                     </div>

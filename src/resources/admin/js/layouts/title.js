@@ -18,6 +18,8 @@ import '@uppy/image-editor/dist/style.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
+const apiPath = `${import.meta.env.VITE_APP_API_URL}/${import.meta.env.VITE_APP_API_PATH}`;
+
 $(function () {
     let offset = $("#table-record-header").val();
 
@@ -100,6 +102,8 @@ $(function () {
         locale: ru
     });
 
+    let title = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
+
     uppy.use(Dashboard, {
         inline: true,
         target: '#uppy-dashboard',
@@ -125,9 +129,9 @@ $(function () {
         },
     });
 
-    uppy.use(XHRUpload, {
-        endpoint: 'https://example.com/upload', // Укажите ваш эндпоинт для загрузки
-    });
+    // uppy.use(XHRUpload, {
+    //     endpoint: `${apiPath}/titles/${title}/covers`, // Укажите ваш эндпоинт для загрузки
+    // });
 
     uppy.on('file-added', (file) => {
         if (file.meta.id != undefined)
@@ -143,20 +147,60 @@ $(function () {
         }
     });
 
+    $("#test").on("change", function () {
+        let formData = new FormData();
+        formData.append('file', this.files[0]);
+
+        // Отправляем на сервер через Axios
+        axios.post(`${apiPath}/titles/${title}/covers`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        }).then(response => {
+            console.log('Файлы успешно загружены!', response.data);
+        }).catch(error => {
+            console.error('Ошибка загрузки:', error);
+        });
+    });
+
     // Событие начала загрузки
     uppy.on('upload', (data) => {
-        console.log(data);
+        const files = uppy.getFiles();
+
+        // Создаем FormData
+        const formData = new FormData();
+
+        console.log(files[0].data);
+
+        // Добавляем каждый файл в FormData
+        // files.forEach(file => {
+        //     formData.append('files[]', file.data); // `file.data` содержит Blob/File объект
+        // });
+        formData.append('title', files[0].data);
+
+        let title = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
+
+        // Отправляем на сервер через Axios
+        axios.postForm(`${apiPath}/titles/${title}/covers`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Важно для загрузки файлов
+            },
+        }).then(response => {
+            console.log('Файлы успешно загружены!', response.data);
+        }).catch(error => {
+            console.error('Ошибка загрузки:', error);
+        });
     });
 
     //  Обработчик завершения загрузки
-    uppy.on('complete', (result) => {
-        console.log('Загрузка завершена:', result);
-        if (result.successful) {
-            alert('Файлы успешно загружены!');
-        } else {
-            alert('Ошибка при загрузке файлов.');
-        }
-    });
+    // uppy.on('complete', (result) => {
+    //     console.log('Загрузка завершена:', result);
+    //     if (result.successful) {
+    //         alert('Файлы успешно загружены!');
+    //     } else {
+    //         alert('Ошибка при загрузке файлов.');
+    //     }
+    // });
 
     uppy.on('save', (result) => {
         const editedFile = new File([editedImageObject.imageBase64], file.name, {
@@ -180,7 +224,9 @@ $(function () {
         let name = src.split("/")[src.split("/").length - 1];
         let id = $(swiper.slides[swiper.activeIndex]).find("img").data("image-id");
 
-        fetch(`http://mangaspace.ru:82/${src}`) // Получаем изображение по URL
+        let title = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
+
+        fetch(`${title}/covers`) // Получаем изображение по URL
             .then(response => response.blob()) // Преобразуем в Blob
             .then(blob => {
                 const file = {
@@ -270,7 +316,7 @@ $(function () {
                     params.search = $("input[name='chapter-search']").val();
 
                 console.log($("input[name='chapter-search']"));
-                axios.get(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/chapters`, { params })
+                axios.get(`${apiPath}/titles/${title}/chapters`, { params })
                     .then((response) => {
                         updateTable(response, title);
                         updatePaginationList(response, title);
@@ -298,7 +344,7 @@ $(function () {
                     params.search = $("input[name='chapter-search']").val();
 
 
-                axios.get(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/chapters`, { params })
+                axios.get(`${apiPath}/titles/${title}/chapters`, { params })
                     .then((response) => {
                         updateTable(response, title);
                         updatePaginationList(response, title);
@@ -318,9 +364,7 @@ $(function () {
             if ($("input[name='chapter-search']").val() != "")
                 params.search = $("input[name='chapter-search']").val();
 
-
-            console.log($("input[name='chapter-search']"));
-            axios.get(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/chapters`, { params })
+            axios.get(`${apiPath}/titles/${title}/chapters`, { params })
                 .then((response) => {
                     updateTable(response, title);
                     updatePaginationList(response, title);
@@ -335,7 +379,7 @@ $(function () {
         if ($(this).hasClass("active"))
             return;
 
-        let page = $(this).find(".page-link").attr("href").match(/\?page=(\d+)/)[1];
+        let page = $(this).find(".page-link").attr("href") == undefined ? 1 : $(this).find(".page-link").attr("href").match(/\?page=(\d+)/)[1];
         let title = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
 
         $(".page-item").removeClass("active");
@@ -352,7 +396,7 @@ $(function () {
         if ($("th.sorting_desc").data("field") != undefined)
             params.orderByDesc = $("th.sorting_desc").data("field");
 
-        axios.get(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/chapters`, { params })
+        axios.get(`${apiPath}/titles/${title}/chapters`, { params })
             .then((response) => {
                 updateTable(response, title);
                 updatePaginationList(response, title);
@@ -370,7 +414,7 @@ $(function () {
             offset: offset,
         }
 
-        axios.get(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/chapters`, { params })
+        axios.get(`${apiPath}/titles/${title}/chapters`, { params })
             .then((response) => {
                 updateTable(response, title);
                 updatePaginationList(response, title);
@@ -386,13 +430,74 @@ $(function () {
             confirmButtonText: "Удалить",
             cancelButtonText: `Отмена`,
         }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                Swal.fire("Saved!", "", "success");
+                let title = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
+
+                axios.delete(`${apiPath}/titles/${title}/chapters/${$(this).data('chapter-number')}`)
+                    .then((response) => {
+                        $(this).parents("tr").remove();
+                    }).catch((error) => {
+
+                    });
             } else if (result.isDenied) {
                 Swal.fire("Changes are not saved", "", "info");
             }
         });
+    });
+
+    /**
+     * Изменение размерности таблица
+     */
+    $("#table-record-header").on("change", function () {
+        let page = $(this).find(".page-link").attr("href") == undefined ? 1 : $(this).find(".page-link").attr("href").match(/\?page=(\d+)/)[1];
+        let title = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
+
+        $(".page-item").removeClass("active");
+        $(this).addClass("active");
+
+        let params = {
+            page: page,
+            offset: offset,
+        };
+
+        if ($("th.sorting_asc").data("field") != undefined)
+            params.orderByAsc = $("th.sorting_asc").data("field");
+
+        if ($("th.sorting_desc").data("field") != undefined)
+            params.orderByDesc = $("th.sorting_desc").data("field");
+
+        axios.get(`${apiPath}/titles/${title}/chapters`, { params })
+            .then((response) => {
+                updateTable(response, title);
+                updatePaginationList(response, title);
+                updateTableInfo(response);
+            }).catch((error) => {
+
+            });
+
+    });
+
+    /**
+     * Сохрание основных данных тайтла
+     */
+    $("button[name='saveTitle']").on("click", function () {
+        let title = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
+
+        let params = {
+            name: $("#name").val(),
+            altName: $("#altName").val(),
+            otherNames: $("#otherNames").val(),
+            type: $("#type").val(),
+            description: $("#description").val(),
+            titleStatus: $("#titleStatus").val(),
+            translateStatus: $("#translateStatus").val(),
+            releaseYear: $("#releaseYear").val(),
+        };
+
+        axios.patch(`${apiPath}/titles/${title}`, { ...params })
+            .then((response) => {
+                $(".breadcrumb-item.active").text(response.data.name);
+            });
     });
 
 });
