@@ -41,3 +41,21 @@ body
 
 html[data-bs-theme=dark] #auth-right
     background: url(../png/4853433.png), linear-gradient(90deg, #2d499d, #3f5491)
+
+.progress-block
+    display: none
+    &::before
+        position: absolute
+        inset: 0
+        content: ""
+        background-color: black
+        opacity: .5
+    &__wrapper
+        position: absolute
+        display: flex
+        height: 100%
+        width: 100%
+        top: 0
+        align-items: center
+        justify-content: center
+        left: 0

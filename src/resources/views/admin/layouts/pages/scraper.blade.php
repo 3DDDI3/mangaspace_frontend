@@ -27,11 +27,11 @@
                             <a class="nav-link" id="remanga-tab" data-engine="remanga" data-bs-toggle="tab" href="#remanga"
                                 role="tab" aria-controls="remanga" aria-selected="true" tabindex="-1">Remanga</a>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        {{-- <li class="nav-item" role="presentation">
                             <a class="nav-link" id="mangaclub-tab" data-engine="mangaclub" data-bs-toggle="tab"
                                 href="#mangaclub" role="tab" aria-controls="mangaclub" aria-selected="false"
                                 tabindex="-1">MangaClub</a>
-                        </li>
+                        </li> --}}
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade active show" id="mangalib" role="tabpanel"
@@ -91,8 +91,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col log d-flex justify-content-end">
-                                                <a href="#" class="btn btn-primary me-3"
-                                                    name="parseChapters">Начать
+                                                <a href="#" class="btn btn-primary me-3" name="parseChapters">Начать
                                                     парсинг глав</a>
                                                 <a href="#" class="btn btn-primary me-3"
                                                     name="selectAllChapters">Выбрать
@@ -182,20 +181,7 @@
                                                     alt="audio">
                                             </div>
                                             <div class="card-content">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">
-                                                        <input id="checkbox-1" class="form-check-input me-1"
-                                                            data-url="https://remanga.org/manga/omniscient-reader"
-                                                            type="checkbox" value="" aria-label="...">
-                                                        <label for="checkbox-1">Cras justo odio</label>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                        <input id="checkbox-2" class="form-check-input me-1"
-                                                            data-url="https://remanga.org/manga/omniscient-reader"
-                                                            type="checkbox" value="" aria-label="...">
-                                                        <label for="checkbox-2">Dapibus ac facilisis in</label>
-                                                    </li>
-                                                </ul>
+                                                <ul class="list-group"> </ul>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -345,10 +331,6 @@
             <div class="footer clearfix mb-0 text-muted">
                 <div class="float-start">
                     <p>{{ \Carbon\Carbon::now()->format('Y') }} &copy; Mangaspace.ru</p>
-                </div>
-                <div class="float-end">
-                    <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
-                        by <a href="https://saugi.me">Saugi</a></p>
                 </div>
             </div>
         </footer>

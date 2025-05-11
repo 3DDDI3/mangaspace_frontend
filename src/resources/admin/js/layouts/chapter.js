@@ -1,3 +1,4 @@
+import '../modules';
 import Swal from 'sweetalert2';
 import Uppy from '@uppy/core';
 import Dashboard from '@uppy/dashboard';
@@ -8,6 +9,8 @@ import ru from '@uppy/locales/lib/ru_RU';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 import '@uppy/image-editor/dist/style.css';
+
+const apiPath = `${import.meta.env.VITE_APP_API_URL}/${import.meta.env.VITE_APP_API_PATH}`;
 
 $(function () {
     /**
@@ -65,11 +68,19 @@ $(function () {
         },
     });
 
+    let title = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
+
     uppy.use(XHRUpload, {
-        endpoint: 'https://example.com/upload', // Укажите ваш эндпоинт для загрузки
+        endpoint: `${apiPath}/titles/world-after-destruction/chapters/170/images/`,  // Укажите ваш эндпоинт для загрузки
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').content,
+            'X-Requested-With': 'XMLHttpRequest', // Аналог axios.defaults
+        },
+        withCredentials: true, // Аналог axios.defaults.withCredentials
     });
 
     uppy.on('file-added', (file) => {
+        console.log(window.location);
         // if (file.meta.id != undefined)
         //     FILE = {
         //         name: file.name,
@@ -153,9 +164,21 @@ $(function () {
 
         axios.patch(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/chapters/${number}`, params)
             .then((response) => {
-
+                Swal.fire({
+                    icon: "success",
+                    title: "Данные успешно обновлены",
+                    // showCancelButton: true,
+                    confirmButtonText: "OK",
+                    // cancelButtonText: `Отмена`,
+                });
             }).catch((error) => {
-
+                Swal.fire({
+                    icon: "error",
+                    title: "Не удалось обновить данные",
+                    // showCancelButton: true,
+                    confirmButtonText: "OK",
+                    // cancelButtonText: `Отмена`,
+                });
             });
     });
 })

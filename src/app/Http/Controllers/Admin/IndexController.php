@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class IndexController extends Controller
 {
     public function index()
     {
-        return view('welcome');
+        return view('admin.layouts.pages.index');
     }
 }

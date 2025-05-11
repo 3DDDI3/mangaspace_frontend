@@ -7376,7 +7376,7 @@ html[data-bs-theme=dark] .placeholder-wave
     to
         -webkit-mask-position: -200% 0%
         mask-position: -200% 0%
-        
+
 html[data-bs-theme=dark] .alert
     border: none
 
@@ -7949,7 +7949,16 @@ html[data-bs-theme=dark] .form-control.form-control-xl
     font-size: 1.2rem
 
 html[data-bs-theme=dark] .form-control.form-control-xl~.form-control-icon 
-    top: calc( 50% - 28px / 2 )
+    top: calc( 50% - 22px)
+
+html[data-bs-theme=dark] .form-group:has(.parsley-error[aria-hidden=true]) .form-control.form-control-xl~.form-control-icon 
+    top: calc( 50% - 22px) !important
+
+html[data-bs-theme=dark] .form-group:has(.parsley-error[aria-hidden=false]) .form-control.form-control-xl~.form-control-icon 
+    top: calc( 50% - 34px) !important
+
+html[data-bs-theme=dark] .form-group:not(:has(.parsley-error))  .form-control.form-control-xl~.form-control-icon 
+    top: calc( 50% - 22px) !important
 
 html[data-bs-theme=dark] .form-check .form-check-input[class*=bg-] 
     border: 0

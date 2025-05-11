@@ -12,12 +12,12 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        return response()->view('admin.layouts.auth.login');
+        return view('admin.layouts.auth.login');
     }
 
-    public function signin()
+    public function signup()
     {
-        return view('admin.layouts.auth.signin');
+        return view('admin.layouts.auth.signup');
     }
 
     public function resetPassword()

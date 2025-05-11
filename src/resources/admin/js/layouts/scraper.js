@@ -69,13 +69,14 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
 
     Echo.private(`admin.${response.data.user.id}.scraper.parseTitles`)
         .listen('WS\\Scraper\\ParseTitlesEvent', (e) => {
+
             if (e.content.chapterDTO[0].isFirst) {
                 let covers = "";
 
                 e.obj.covers.forEach(cover => {
                     covers += `
                         <div class="swiper-slide">
-                            <img src="/media/${cover.path}" alt="">
+                            <img src="/media/titles/${e.obj.path}/covers/${cover.path}" alt="">
                         </div>`;
                 });
 
@@ -120,14 +121,11 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
             else {
                 let elems = "";
 
-                console.log(e);
-
                 e.obj.images.forEach(el => {
                     elems += ` 
                         <div class="swiper-slide">
-                           <img loading="lazy" src="/media/${el}" alt="">
+                           <img src="/media/${el}" alt="">
                         </div>
-                        <div class="swiper-lazy-preloader"></div>
                         `;
                 });
 
@@ -158,7 +156,7 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                     </div>
                     `;
 
-                $(`.tab-pane.active.show .titles #flush-collapse${e.obj_id} .accordion-body`).append(html);
+                $(`.tab-pane.active.show .titles #flush-collapse${e.obj_id} .accordion-body`).eq(0).append(html);
             }
 
             initSwiper();
@@ -181,6 +179,8 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                 initSwiper();
             }
             else {
+                console.log(e);
+
                 let elems = ""
 
                 e.obj.images.forEach(el => {
@@ -194,7 +194,7 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="flush-heading_${e.object.number}">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_${e.object.number}" aria-expanded="false" aria-controls="flush-collapse_${e.object.number}">
-                            Глава ${e.object.number} (переводчик ${e.object.translator.name})
+                            Глава ${e.object.number} (переводчик ${e.obj.translator.name})
                         </button>
                     </h2>
                     <div id="flush-collapse_${e.object.number}" class="accordion-collapse collapse accordion-chapter" aria-labelledby="flush-collapse_${e.object.number}" data-bs-parent="#accordionFlushExample1">

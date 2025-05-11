@@ -11,6 +11,8 @@
             style="cursor: pointer; max-width: 100%;">
     </div> --}}
 
+    @csrf
+
     <div id="main">
         <header class="mb-3">
             <a href="#" class="burger-btn d-block d-xl-none">
@@ -118,7 +120,7 @@
                                             data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body p-0">
                                                 <img class="w-100"
-                                                    src="/media/{{ $chapter['path'] . $chapter['translator_branch'][0]['translator']['slug'] . '/' . $image }}"
+                                                    src="/media/titles/{{ $title['path'] }}/{{ $chapter['path'] . '/' . $chapter['translator_branch'][0]['translator']['slug'] . '/' . $image }}"
                                                     alt="">
                                             </div>
                                         </div>
@@ -135,10 +137,6 @@
             <div class="footer clearfix mb-0 text-muted">
                 <div class="float-start">
                     <p>{{ \Carbon\Carbon::now()->format('Y') }} &copy; Mangaspace.ru</p>
-                </div>
-                <div class="float-end">
-                    <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
-                        by <a href="https://saugi.me">Saugi</a></p>
                 </div>
             </div>
         </footer>

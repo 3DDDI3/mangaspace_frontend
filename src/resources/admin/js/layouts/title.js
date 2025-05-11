@@ -1,3 +1,4 @@
+import '../modules';
 import Choices from 'choices.js';
 import Sortable from 'sortablejs';
 import Swiper from "swiper/bundle";
@@ -129,9 +130,12 @@ $(function () {
         },
     });
 
-    // uppy.use(XHRUpload, {
-    //     endpoint: `${apiPath}/titles/${title}/covers`, // Укажите ваш эндпоинт для загрузки
-    // });
+    console.log(apiPath);
+
+
+    uppy.use(XHRUpload, {
+        endpoint: `${apiPath}/titles/${title}/covers`, // Укажите ваш эндпоинт для загрузки
+    });
 
     uppy.on('file-added', (file) => {
         if (file.meta.id != undefined)
@@ -226,7 +230,10 @@ $(function () {
 
         let title = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
 
-        fetch(`${title}/covers`) // Получаем изображение по URL
+        console.log(src);
+
+
+        fetch(`${src}`) // Получаем изображение по URL
             .then(response => response.blob()) // Преобразуем в Blob
             .then(blob => {
                 const file = {
