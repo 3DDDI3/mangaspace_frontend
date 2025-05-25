@@ -23,7 +23,7 @@
                     <div class="row mb-4">
                         <div class="col-4">
                             <label class="table-record-header-wrapper" for="table-record-header">
-                                Показывать
+                                <span class="d-none d-sm-block">Показывать</span>
                                 <select aria-controls="table-record-header" id="table-record-header"
                                     class="form-select form-select-sm">
                                     <option value="10">10</option>
@@ -31,7 +31,7 @@
                                     <option value="50">50</option>
                                     <option value="100">100</option>
                                 </select>
-                                записей
+                                <span class="d-none d-sm-block">записей</span>
                             </label>
                         </div>
                         <div class="col-8 d-flex justify-content-end">

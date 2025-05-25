@@ -35,9 +35,9 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="row col-xxl-8 col-lg-12 mb-4">
+                    <div class="col-12 col-xl-8 mb-4">
                         <h3>Основная информация</h3>
-                        <div class="col-4 mb-3">
+                        <div class="col-12 col-md-6 col-lg-5 col-xl-4 mb-3">
                             <h5 class="form-span fw-bolder mt-2">Обложки</h5>
                             <div class="col-12 covers-wrapper">
                                 <div class="btn-group-vertical" role="group" aria-label="Basic example">
@@ -67,26 +67,26 @@
                         </div>
 
                         <div class="col-12">
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Название тайтла</span>
-                                <input type="text" id="name" class="form-control" placeholder=""
+                            <div class="input-group mb-3 d-flex flex-column flex-sm-row flex-sm-nowrap">
+                                <span class="input-group-text mb-1 mb-sm-0">Название</span>
+                                <input type="text" id="name" class="form-control w-auto" placeholder=""
                                     value="{{ $title['name'] }}" aria-label="Username" aria-describedby="titleName">
                             </div>
                         </div>
 
                         <div class="col-12">
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Альтернативное название тайтла</span>
-                                <input type="text" id="altName" class="form-control" placeholder=""
+                            <div class="input-group mb-3 d-flex flex-column flex-sm-row flex-sm-nowrap">
+                                <span class="input-group-text mb-1 mb-sm-0 text-truncate">Альтернативное название</span>
+                                <input type="text" id="altName" class="form-control w-auto" placeholder=""
                                     value="{{ $title['altName'] }}" aria-label="Username" aria-describedby="titleName">
                             </div>
                         </div>
 
                         <div class="col-12">
                             <div class="form-group">
-                                <div class="input-group mb-3">
-                                    <label class="input-group-text" for="type">Тип тайтла</label>
-                                    <select class="form-select" id="type">
+                                <div class="input-group mb-3 d-flex flex-column flex-sm-row flex-sm-nowrap">
+                                    <label class="input-group-text mb-1 mb-sm-0" for="type">Тип тайтла</label>
+                                    <select class="form-select w-auto" id="type">
                                         @foreach ($categories as $category)
                                             @if ($title['type'] == $category['category'])
                                                 <option selected value="{{ $category['id'] }}">
@@ -120,9 +120,9 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <div class="input-group mb-3">
-                                    <label class="input-group-text" for="titleStatus">Статус тайтла</label>
-                                    <select class="form-select" id="titleStatus">
+                                <div class="input-group mb-3 d-flex flex-column flex-sm-row flex-sm-nowrap">
+                                    <label class="input-group-text mb-1 mb-sm-0" for="titleStatus">Статус тайтла</label>
+                                    <select class="form-select w-auto" id="titleStatus">
                                         @foreach ($titleStatuses as $titleStatus)
                                             @if ($titleStatus['status'] == $title['titleStatus'])
                                                 <option selected value="{{ $titleStatus['id'] }}">
@@ -142,8 +142,8 @@
                         </div>
 
                         <div class="col-12 mb-4">
-                            <div class="form-group">
-                                <div class="input-group mb-3">
+                            <div class="form-group d-flex flex-column flex-sm-row flex-sm-nowrap">
+                                <div class="input-group mb-3 translators">
                                     <label class="input-group-text" for="translators">Переводчики</label>
                                     <select id="translators" class="choices form-select multiple-remove"
                                         disabled="disabled" multiple="multiple">
@@ -160,9 +160,9 @@
 
                         <div class="col-12">
                             <div class="form-group">
-                                <div class="input-group mb-3">
+                                <div class="input-group mb-3 d-flex flex-column flex-sm-row flex-sm-nowrap">
                                     <label class="input-group-text" for="translateStatus">Статус перевода</label>
-                                    <select class="form-select" id="translateStatus">
+                                    <select class="form-select w-auto" id="translateStatus">
                                         @foreach ($translateStatuses as $translateStatus)
                                             <option
                                                 {{ $title['translateStatus'] == $translateStatus['status'] ? 'selected' : null }}
@@ -176,9 +176,9 @@
 
                         <div class="col-12">
                             <div class="form-group">
-                                <div class="input-group mb-3">
+                                <div class="input-group mb-3 d-flex flex-column flex-sm-row flex-sm-nowrap">
                                     <label class="input-group-text" for="releaseYear">Год релиза</label>
-                                    <select class="form-select" id="releaseYear">
+                                    <select class="form-select w-auto" id="releaseYear">
                                         @for ($i = (int) \Carbon\Carbon::now()->subYears(50)->format('Y'); $i < (int) \Carbon\Carbon::now()->format('Y'); $i++)
                                             <option {{ $title['releaseYear'] == $i ? 'selected' : null }}
                                                 value="{{ $i }}">{{ $i }}</option>
@@ -195,7 +195,7 @@
                             <div class="row mb-4">
                                 <div class="col-4">
                                     <label class="table-record-header-wrapper" for="table-record-header">
-                                        Показывать
+                                        <span class="d-none d-sm-block">Показывать</span>
                                         <select aria-controls="table-record-header" id="table-record-header"
                                             class="form-select form-select-sm">
                                             <option value="10">10</option>
@@ -203,7 +203,7 @@
                                             <option value="50">50</option>
                                             <option value="100">100</option>
                                         </select>
-                                        записей
+                                        <span class="d-none d-sm-block">записей</span>
                                     </label>
                                 </div>
                                 <div class="col-8 d-flex justify-content-end">

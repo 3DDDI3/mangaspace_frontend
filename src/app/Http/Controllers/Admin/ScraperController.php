@@ -16,7 +16,6 @@ class ScraperController extends Controller
             "/v1.0/ws/info",
             "get",
             "text/html",
-            // ['title' => 'solo-leveling']
         );
         $block = $api->response;
 

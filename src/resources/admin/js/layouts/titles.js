@@ -1,3 +1,4 @@
+import '../modules';
 import Swal from 'sweetalert2';
 
 $(function () {
@@ -198,7 +199,7 @@ $(function () {
 function updatePaginationList(response, title) {
     $(".table-responsive .dataTable-pagination .page-item").remove();
 
-    response.data.meta.links.forEach((el) => {
+    response.data.meta?.links.forEach((el) => {
         /**
          * Формирование списка страниц
          */
@@ -256,9 +257,9 @@ function updatePaginationList(response, title) {
  * Измененеи плашки с кол-вом записей в таблице
  */
 function updateTableInfo(response) {
-    $(".table-responsive .dataTable-info .fw-semibold").eq(0).text(response.data.meta.from);
-    $(".table-responsive .dataTable-info .fw-semibold").eq(1).text(response.data.meta.to);
-    $(".table-responsive .dataTable-info .fw-semibold").eq(2).text(response.data.meta.total);
+    $(".table-responsive .dataTable-info .fw-semibold").eq(0).text(response.data.meta?.from);
+    $(".table-responsive .dataTable-info .fw-semibold").eq(1).text(response.data.meta?.to);
+    $(".table-responsive .dataTable-info .fw-semibold").eq(2).text(response.data.meta?.total);
 }
 
 
@@ -273,7 +274,7 @@ function updateTable(response, title) {
 
     $("table tbody tr").remove();
 
-    if (chapter.length == 0) {
+    if (chapter?.length == 0 || response.status == 204) {
         $("table tbody").append(
             `
                 <tr class="odd">

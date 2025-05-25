@@ -29,7 +29,6 @@ class ApiRequest
             'Accept' => $accept ?? "application/json",
             'Origin' => config('app.url'),
             'Cookie' => $request->header('cookie'),
-        ])
-            ->send($method, config('app.api_url') . $url, ['query' => $parameters]);
+        ])->send($method, config('app.api_url') . $url, ['query' => $parameters]);
     }
 }

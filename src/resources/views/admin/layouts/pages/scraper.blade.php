@@ -41,15 +41,17 @@
                                 <h4 class="mb-3">Настройка парсера</h4>
                                 <div class="card-content">
                                     <div class="row">
-                                        <div class="col-lg-10">
-                                            <div class="input-group" data-bs-toggle="tooltip"
+                                        <div class="col-xxl-10 col-xl-9 col-sm-7 col-lg-9 col-xs-12 mb-2">
+                                            <div class="input-group d-flex flex-column flex-sm-row flex-sm-nowrap"
+                                                data-bs-toggle="tooltip"
                                                 data-bs-original-title="Пример диапозона: 1..5,10..15">
-                                                <span class="input-group-text" id="basic-addon1">Диапазон страниц</span>
-                                                <input type="text" class="form-control" placeholder="1..5,10..15"
+                                                <span class="input-group-text mb-1 mb-sm-0" id="basic-addon1">Диапазон
+                                                    страниц</span>
+                                                <input type="text" class="form-control w-auto" placeholder="1..5,10..15"
                                                     name="pages" aria-label="pages" aria-describedby="basic-addon1">
                                             </div>
                                         </div>
-                                        <div class="col-lg-2">
+                                        <div class="col-xxl-2 col-xl-3 col-sm-5 col-xs-12 col-lg-3">
                                             <a href="#" class="btn btn-primary w-100" name="parseTitle">Начать
                                                 парсинг</a>
                                         </div>
@@ -59,18 +61,18 @@
                             <div class="card">
                                 <div class="card-content">
                                     <div class="row">
-                                        <div class="col-lg-10">
+                                        <div class="col-xxl-10 col-xl-9 col-sm-7 col-lg-9 col-xs-12 mb-2">
                                             <div class="input-group">
-                                                <div class="input-group mb-4">
-                                                    <span class="input-group-text"
+                                                <div class="input-group mb-1 d-flex flex-column flex-sm-row flex-sm-nowrap">
+                                                    <span class="input-group-text mb-1 mb-sm-0"
                                                         name="url">https://mangalib.me/</span>
-                                                    <input type="text" class="form-control" name="pathname"
+                                                    <input type="text" class="form-control w-auto" name="pathname"
                                                         placeholder="Ссылка на тайтл" aria-label="pathname"
                                                         aria-describedby="basic-addon1">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2">
+                                        <div class="col-xxl-2 col-xl-3 col-sm-5 col-xs-12 col-lg-3">
                                             <a class="btn btn-primary w-100" data-bs-toggle="collapse"
                                                 href="#mangalibChapters" role="button" name="getChapters"
                                                 aria-expanded="false" aria-controls="mangalibChapters">
@@ -109,8 +111,8 @@
                             </div>
                             <div class="row titles">
                                 <div class="col-lg-8">
-                                    <div class="card titles">
-                                        {{-- {!! $block !!} --}}
+                                    <div class="card titles mb-2">
+                                        {!! $block !!}
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -206,7 +208,7 @@
                             <div class="row titles">
                                 <div class="col-lg-8">
                                     <div class="card">
-                                        {{-- {!! $block !!} --}}
+                                        {!! $block !!}
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -302,7 +304,7 @@
                             <div class="row titles">
                                 <div class="col-lg-8">
                                     <div class="card">
-                                        {{-- {!! $block !!} --}}
+                                        {!! $block !!}
                                     </div>
                                 </div>
                                 <div class="col-lg-4">

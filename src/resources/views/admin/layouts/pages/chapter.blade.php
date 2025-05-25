@@ -43,34 +43,38 @@
                     </nav>
                 </div>
                 <div class="card-body">
-                    <div class="row col-xs-12 col-xl-10 mb-4">
+                    <div class="col-12 col-xl-8 mb-4">
                         <h3>Основная информация</h3>
                         <div class="col-12">
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="titleName">Том</span>
-                                <input type="text" name="chapter_volume" class="form-control" placeholder=""
-                                    value="{{ $chapter['volume'] }}" aria-label="Username" aria-describedby="titleName">
+                            <div class="input-group mb-3 d-flex flex-column flex-sm-row flex-sm-nowrap">
+                                <span class="input-group-text mb-1 mb-sm-0" id="titleName">Том</span>
+                                <input type="text" name="chapter_volume" class="form-control w-100 w-sm-auto"
+                                    placeholder="" value="{{ $chapter['volume'] }}" aria-label="Username"
+                                    aria-describedby="titleName">
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="titleName">Глава</span>
-                                <input type="text" name="chapter_number" class="form-control" placeholder=""
-                                    value="{{ $chapter['number'] }}" aria-label="Username" aria-describedby="titleName">
+                            <div class="input-group mb-3 d-flex flex-column flex-sm-row flex-sm-nowrap">
+                                <span class="input-group-text mb-1 mb-sm-0" id="titleName">Глава</span>
+                                <input type="text" name="chapter_number" class="form-control w-100 w-sm-auto"
+                                    placeholder="" value="{{ $chapter['number'] }}" aria-label="Username"
+                                    aria-describedby="titleName">
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="titleName">Название</span>
-                                <input type="text" name="name" class="form-control" placeholder=""
+                            <div class="input-group mb-3 d-flex flex-column flex-sm-row flex-sm-nowrap">
+                                <span class="input-group-text mb-1 mb-sm-0" id="titleName">Название</span>
+                                <input type="text" name="name" class="form-control w-100 w-sm-auto" placeholder=""
                                     value="{{ $chapter['name'] }}" aria-label="Username" aria-describedby="titleName">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <div class="input-group mb-3">
-                                    <label class="input-group-text" for="type">Переводчик</label>
-                                    <select class="form-select" id="type">
+                                <div class="input-group mb-3 d-flex flex-column flex-sm-row flex-sm-nowrap">
+                                    <label class="input-group-text mb-1 mb-sm-0" for="type">Переводчик</label>
+                                    <select class="form-select w-100 w-sm-auto"
+                                        data-translator="{{ $chapter['translator_branch'][0]['translator']['id'] }}"
+                                        name="translator">
                                         @foreach ($translators as $translator)
                                             @if ($translator['name'] == $chapter['translator_branch'][0]['translator']['name'])
                                                 <option selected value="{{ $translator['id'] }}">{{ $translator['name'] }}
@@ -92,8 +96,9 @@
                                 @foreach ($chapter['translator_branch'][0]['images'] as $image)
                                     <div class="accordion-item">
                                         <div class="images d-flex align-items-center">
-                                            <i class="icon flex-shrink-0 bi bi-list"></i>
-                                            <h2 class="accordion-header w-100" id="flush-heading-{{ $loop->index + 1 }}">
+                                            <i class="icon flex-shrink-0 bi bi-list d-none d-md-flex"></i>
+                                            <h2 class="accordion-header w-100 w-md-auto flex-shrink-0 flex-md-shrink-1"
+                                                id="flush-heading-{{ $loop->index + 1 }}">
                                                 <button class="accordion-button collapsed" type="button"
                                                     data-bs-toggle="collapse"
                                                     data-bs-target="#flush-collapse-{{ $loop->index + 1 }}"
@@ -104,11 +109,15 @@
                                             </h2>
                                             <div class="btn-group d-flex column-gap-2 ps-2" role="group"
                                                 aria-label="Basic example">
-                                                <a class="action-btn image-edit-btn btn icon btn-primary"
-                                                    data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                                                <a class="action-btn image-edit-btn btn icon d-none d-md-flex btn-primary"
+                                                    data-bs-toggle="modal" data-bs-target="#exampleModalCenter"
+                                                    data-id="{{ $chapter['translator_branch'][0]['id'] }}"
+                                                    data-number="{{ $loop->index + 1 }}">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
-                                                <a class="action-btn image-delete-btn btn icon btn-danger">
+                                                <a class="action-btn image-delete-btn btn icon btn-danger d-none d-md-flex"
+                                                    data-id="{{ $chapter['translator_branch'][0]['id'] }}"
+                                                    data-number="{{ $loop->index + 1 }}">
                                                     <i class="bi bi-trash"></i>
                                                 </a>
                                             </div>

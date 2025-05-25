@@ -21,6 +21,7 @@ function initSwiper() {
         let id = $(slider).data("swiper-id");
 
         new Swiper(slider, {
+            // autoHeight: true,
             direction: 'horizontal',
             loop: false,
 
@@ -164,10 +165,13 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
 
     Echo.private(`admin.${response.data.user.id}.scraper.getChapters`)
         .listen('WS\\Scraper\\GetChaptersEvent', (e) => {
-            console.log(e);
-
             if (e.isLast)
                 $(".chapters .loader-layer").fadeOut(800);
+
+            if (e.isLast) {
+                $(".tab-pane.fade.active a[name='getChapters']").removeClass("disabled btn-progress");
+                $(".tab-pane.fade.active input[name='pathname']").prop("disabled", false);
+            }
 
             $(".tab-pane.active.show").find(".chapters .list-group").append(e.content);
         });
@@ -179,8 +183,6 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                 initSwiper();
             }
             else {
-                console.log(e);
-
                 let elems = ""
 
                 e.obj.images.forEach(el => {
@@ -233,9 +235,11 @@ $(function () {
             action: "getChapters",
         };
 
+        $(this).addClass("btn-progress disabled");
+        $(".tab-pane.fade.active input[name='pathname']").prop("disabled", true);
+
         axios.get(`${api_url}/v1.0/scraper/chapters`, { params })
             .then((response) => {
-                console.log(response);
             })
             .catch((error) => {
                 // console.log(error);
@@ -259,7 +263,6 @@ $(function () {
 
         axios.post(`${api_url}/v1.0/scraper/chapters`, { params })
             .then((response) => {
-                console.log(JSON.parse(response));
             })
             .catch((error) => {
                 // console.log(error);
@@ -268,6 +271,9 @@ $(function () {
     });
 
     $("a[name='parseTitle']").on("click", function () {
+        $(".logs-textarea p").remove();
+        $(".error-textarea li").remove();
+
         let pages = $(this).parents(".card.mt-4.mb-4").find("input[name='pages']").val();
 
         const params = {
@@ -278,7 +284,6 @@ $(function () {
 
         axios.post(`${api_url}/v1.0/scraper/titles`, { params })
             .then((response) => {
-                console.log(JSON.parse(response));
             })
             .catch((error) => {
                 // console.log(error);
@@ -287,11 +292,16 @@ $(function () {
     })
 
     $("a[name='selectAllChapters']").on("click", function () {
-
+        $(this).parents(".chapters").find(".list-group li input[type='checkbox']").prop("checked", true);
     });
 
     $("a[name='removeSelectedChapters']").on("click", function () {
+        $(this).parents(".chapters").find(".list-group li input[type='checkbox']").prop("checked", false);
+    });
 
+    var myCollapsible = document.getElementById('mangalibChapters')
+    myCollapsible.addEventListener('shown.bs.collapse', function (e) {
+        $(this).removeAttr("id");
     });
 
 });

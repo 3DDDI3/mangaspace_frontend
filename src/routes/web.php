@@ -7,7 +7,6 @@ use App\Http\Controllers\Admin\ScraperController;
 use App\Http\Controllers\Admin\TitleController;
 use App\Http\Middleware\IsAuthenticated;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -29,11 +28,3 @@ Route::prefix('admin/scraper')
     ->group(function () {
         Route::get('/', [ScraperController::class, 'index'])->name('index');
     });
-
-Route::get('test', function () {
-    Storage::disk('shared')->delete('1.webp');
-});
-
-Route::get('/test', function () {
-    dd(Storage::allFiles());
-});
