@@ -71,6 +71,8 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
     Echo.private(`admin.${response.data.user.id}.scraper.parseTitles`)
         .listen('WS\\Scraper\\ParseTitlesEvent', (e) => {
 
+            $(".titles accordion").remove();
+
             if (e.content.chapterDTO[0].isFirst) {
                 let covers = "";
 
@@ -178,6 +180,8 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
 
     Echo.private(`admin.${response.data.user.id}.scraper.parseChapters`)
         .listen('WS\\Scraper\\ParseChaptersEvent', (e) => {
+            $(".titles accordion").remove();
+
             if (e.object.isFirst) {
                 $(".tab-pane.active.show .titles div").eq(0).html(e.content);
                 initSwiper();
@@ -216,6 +220,17 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                 `;
                 $(".tab-pane.active.show .titles .accordion").eq(1).append(html);
             }
+
+            if (e.object.isLast) {
+                $(".tab-pane.fade.active a[name='parseChapters']").removeClass("btn-progress disabled");
+                $(".tab-pane.fade.active a[name='selectAllChapters']").removeClass("btn-progress disabled");
+                $(".tab-pane.fade.active a[name='removeSelectedChapters']").removeClass("btn-progress disabled");
+                $(".tab-pane.fade.active a[name='getChapters']").removeClass("btn-progress disabled");
+                $(".tab-pane.fade.active a[name='parseTitle']").removeClass("btn-progress disabled");
+                $(".tab-pane.fade.active input[name='pathname']").attr("disabled", false);
+                $(".tab-pane.fade.active input[name='pages']").attr("disabled", false);
+            }
+
             initSwiper();
         });
 
@@ -235,7 +250,7 @@ $(function () {
             action: "getChapters",
         };
 
-        $(this).addClass("btn-progress disabled");
+        $(this).removeClass("btn-progress disabled");
         $(".tab-pane.fade.active input[name='pathname']").prop("disabled", true);
 
         axios.get(`${api_url}/v1.0/scraper/chapters`, { params })
@@ -252,6 +267,15 @@ $(function () {
             chapters.push($(el).attr("data-url"));
         });
 
+        $(this).addClass("btn-progress disabled");
+        $(".tab-pane.fade.active input[name='pathname']").attr("disabled", true);
+        $(".tab-pane.fade.active input[name='pages']").attr("disabled", true);
+        $(".tab-pane.fade.active a[name='selectAllChapters']").addClass("btn-progress disabled");
+        $(".tab-pane.fade.active a[name='removeSelectedChapters']").addClass("btn-progress disabled");
+        $(".tab-pane.fade.active a[name='getChapters']").addClass("btn-progress disabled");
+        $(".tab-pane.fade.active a[name='parseTitle']").addClass("btn-progress disabled");
+        $(".tab-pane.fade.active a[name='removeSelectedChapters']").addClass("btn-progress disabled");
+
         const params = {
             chapters: chapters,
             engine: $("a.nav-link.active").data("engine"),
@@ -265,7 +289,6 @@ $(function () {
             .then((response) => {
             })
             .catch((error) => {
-                // console.log(error);
             });
 
     });

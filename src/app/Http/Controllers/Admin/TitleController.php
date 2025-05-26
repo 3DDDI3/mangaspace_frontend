@@ -29,6 +29,9 @@ class TitleController extends Controller
         $api->send($request, "/v1.0/users/{$user['name']}/permissions", "get");
         $permissions = $api->response->json();
 
+        if (!$titles)
+            abort(404);
+
         $titlesData = $titles['data'];
         $perPage = $titles['meta']['per_page'];
         $currentPage = $titles['meta']['current_page'];

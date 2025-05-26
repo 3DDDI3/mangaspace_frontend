@@ -23,10 +23,8 @@ class IsAuthenticated
         if (!$apiRequest->response->ok() && $request->route()->getName() != 'admin.login')
             return redirect()->route('admin.login');
         else {
-            // if ($apiRequest->response->ok() && $request->route()->getName() != 'admin.scraper.index')
-            //     return redirect()->route('admin.scraper.index');
-            return $next($request);
-            /** @todo Поменять путь при успешной авторизации в системе */
+            if ($apiRequest->response->ok() && $request->route()->getName() == 'admin.login')
+                return redirect()->route('admin.titles.index');
         }
 
         return $next($request);

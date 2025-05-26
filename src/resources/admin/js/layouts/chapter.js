@@ -132,6 +132,11 @@ $(function () {
      * Удаление изображения
      */
     $("a.image-delete-btn").on("click", function () {
+
+        let matches = location.pathname.match(/\/admin\/titles\/([a-zA-Z-_0-9]+)\/chapters\/(\d+)/);
+        let title = matches[1];
+        let chapter = matches[2];
+
         Swal.fire({
             icon: "warning",
             title: "Вы действительно хотите изображение",
@@ -140,8 +145,15 @@ $(function () {
             cancelButtonText: `Отмена`,
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete()
-                Swal.fire("Saved!", "", "success");
+                let params = {
+                    image: $(this).parents(".accordion-item").find(".accordion-collapse img").attr("src").split("/")[$(this).parents(".accordion-item").find(".accordion-collapse img").attr("src").split("/").length - 1],
+                    person: $("select[name='translator']").val()
+                }
+                axios.delete(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/chapters/${chapter}/images`, { params })
+                    .then((response) => {
+                        Swal.fire("Saved!", "", "success");
+                    })
+                    .catch((error) => { });
             } else if (result.isDenied) {
                 Swal.fire("Changes are not saved", "", "info");
             }
@@ -161,11 +173,11 @@ $(function () {
         };
 
         let params2 = {
-            translator: translator
+            person: translator
         };
 
         const chapterRequest = axios.patch(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/chapters/${oldNumber}`, params1);
-        const chapterImageRequest = axios.patch(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/chapters/${oldNumber}/images/${translator}`, params2);
+        const chapterImageRequest = axios.patch(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/chapters/${oldNumber}/images`, params2);
 
         Promise.all([chapterRequest, chapterImageRequest])
             .then(responses => {
