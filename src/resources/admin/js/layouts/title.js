@@ -130,11 +130,13 @@ $(function () {
         },
     });
 
-    console.log(apiPath);
-
-
     uppy.use(XHRUpload, {
-        endpoint: `${apiPath}/titles/${title}/covers`, // Укажите ваш эндпоинт для загрузки
+        endpoint: `${apiPath}/titles/${title}/covers`,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').content,
+            'X-Requested-With': 'XMLHttpRequest',
+        },
+        withCredentials: true,
     });
 
     uppy.on('file-added', (file) => {
@@ -149,51 +151,6 @@ $(function () {
             else
                 $(".uppy-Dashboard-progressindicators").css("display", "block");
         }
-    });
-
-    $("#test").on("change", function () {
-        let formData = new FormData();
-        formData.append('file', this.files[0]);
-
-        // Отправляем на сервер через Axios
-        axios.post(`${apiPath}/titles/${title}/covers`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            }
-        }).then(response => {
-            console.log('Файлы успешно загружены!', response.data);
-        }).catch(error => {
-            console.error('Ошибка загрузки:', error);
-        });
-    });
-
-    // Событие начала загрузки
-    uppy.on('upload', (data) => {
-        const files = uppy.getFiles();
-
-        // Создаем FormData
-        const formData = new FormData();
-
-        console.log(files[0].data);
-
-        // Добавляем каждый файл в FormData
-        // files.forEach(file => {
-        //     formData.append('files[]', file.data); // `file.data` содержит Blob/File объект
-        // });
-        formData.append('title', files[0].data);
-
-        let title = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
-
-        // Отправляем на сервер через Axios
-        axios.postForm(`${apiPath}/titles/${title}/covers`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data', // Важно для загрузки файлов
-            },
-        }).then(response => {
-            console.log('Файлы успешно загружены!', response.data);
-        }).catch(error => {
-            console.error('Ошибка загрузки:', error);
-        });
     });
 
     //  Обработчик завершения загрузки
@@ -257,7 +214,9 @@ $(function () {
     /**
      * Функционал кнопки удаления
      */
-    $("a.image-delete-btn").on("click", function () {
+    $(".covers-wrapper a.image-delete-btn").on("click", function () {
+        let image = $(".swiper-slide-active img").data("image-id");
+
         // Toastify({
         //     text: "This is toast in top left",
         //     duration: 3000,
@@ -279,9 +238,12 @@ $(function () {
             confirmButtonText: "Удалить",
             cancelButtonText: `Отмена`,
         }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                Swal.fire("Saved!", "", "success");
+                axios.delete(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/covers/${image}`)
+                    .then((response) => {
+                        swiper.slides[swiper.activeIndex].remove();
+                        swiper.update();
+                    });
             } else if (result.isDenied) {
                 Swal.fire("Changes are not saved", "", "info");
             }
@@ -322,7 +284,6 @@ $(function () {
                 if ($("input[name='chapter-search']").val() != "")
                     params.search = $("input[name='chapter-search']").val();
 
-                console.log($("input[name='chapter-search']"));
                 axios.get(`${apiPath}/titles/${title}/chapters`, { params })
                     .then((response) => {
                         updateTable(response, title);
@@ -343,8 +304,6 @@ $(function () {
                     orderByAsc: $(this).data("field"),
                     offset: offset,
                 }
-
-                console.log($("input[name='chapter-search']"));
 
 
                 if ($("input[name='chapter-search']").val() != "")
