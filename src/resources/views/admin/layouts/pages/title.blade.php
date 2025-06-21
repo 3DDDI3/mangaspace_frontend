@@ -227,36 +227,38 @@
                                     </thead>
                                     <tbody>
                                         @forelse ($chapters as $chapter)
-                                            <tr>
-                                                <td>
-                                                    <div class="btn-group d-flex justify-content-center" role="group"
-                                                        aria-label="Basic example">
-                                                        <i class="icon sorting-button flex-shrink-0 bi bi-list"></i>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a
-                                                        href="{{ route('admin.titles.chapter.index', ['slug' => $title['slug'], 'chapter' => $chapter['number']]) }}">
-                                                        {{ $chapter['number'] }}
-                                                    </a>
-                                                </td>
-                                                <td>{{ $chapter['volume'] }} </td>
-                                                <td>{{ $chapter['name'] }}</td>
-                                                <td>{{ $chapter['created_at'] }}</td>
-                                                <td>
-                                                    <div class="btn-group d-flex justify-content-end column-gap-2 ps-2"
-                                                        role="group" aria-label="Basic example">
-                                                        <a href="{{ route('admin.titles.chapter.index', ['slug' => $title['slug'], 'chapter' => $chapter['number']]) }}"
-                                                            class="action-btn edit-btn btn icon btn-primary">
-                                                            <i class="bi bi-pencil"></i>
+                                            @foreach ($chapter['translator_branch'] as $item)
+                                                <tr>
+                                                    <td>
+                                                        <div class="btn-group d-flex justify-content-center"
+                                                            role="group" aria-label="Basic example">
+                                                            <i class="icon sorting-button flex-shrink-0 bi bi-list"></i>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a
+                                                            href="{{ route('admin.titles.chapter.index', ['slug' => $title['slug'], 'chapter' => $chapter['number']]) }}">
+                                                            {{ $chapter['number'] }}
                                                         </a>
-                                                        <a data-chapter-number="{{ $chapter['number'] }}"
-                                                            class="action-btn delete-btn btn icon btn-danger">
-                                                            <i class="bi bi-trash"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    <td>{{ $chapter['volume'] }} </td>
+                                                    <td>{{ $chapter['name'] }}</td>
+                                                    <td>{{ $chapter['created_at'] }}</td>
+                                                    <td>
+                                                        <div class="btn-group d-flex justify-content-end column-gap-2 ps-2"
+                                                            role="group" aria-label="Basic example">
+                                                            <a href="{{ route('admin.titles.chapter.index', ['slug' => $title['slug'], 'chapter' => $chapter['number']]) }}?translator={{ $item['translator']['altName'] }}"
+                                                                class="action-btn edit-btn btn icon btn-primary">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </a>
+                                                            <a data-chapter-number="{{ $chapter['number'] }}"
+                                                                class="action-btn delete-btn btn icon btn-danger">
+                                                                <i class="bi bi-trash"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         @empty
                                             <tr>
                                                 <td class="dataTables-empty" colspan="6">Главы не найдены</td>

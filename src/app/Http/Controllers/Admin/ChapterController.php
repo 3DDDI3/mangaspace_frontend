@@ -22,10 +22,16 @@ class ChapterController extends Controller
 
         $api->send(
             $request,
-            "/v1.0/titles/{$slug}/chapters/{$chapter}",
+            "/v1.0/titles/{$slug}/chapters/{$chapter}?translator={$request->translator}",
             "get"
         );
         $chapter = $api->response->json();
+
+        foreach ($chapter['translator_branch'] as $index => $item) {
+            if ($item['translator']['altName'] !== $request->translator) {
+                array_splice($chapter['translator_branch'], $index, 1);
+            }
+        }
 
         $api->send(
             $request,

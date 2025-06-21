@@ -126,7 +126,7 @@
                                         <div class="col">
                                             <h4 class="mt-4 mb-4">Ошибки</h4>
                                             <ul class="list-group error-textarea"
-                                                style="min-height: 200px; background-color: #151521">
+                                                style="min-height: 200px; background-color: var(--bs-list-group-bg)">
                                             </ul>
                                         </div>
                                     </div>

@@ -47,7 +47,7 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
         .listen('WS\\Scraper\\GetErrorEvent', (e) => {
             $(".error-textarea").append(`
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>${e.message}</span>
+                    <span style="width: 80%;">${e.message}</span>
                     <span class="badge bg-danger badge-pill badge-round ms-1">
                         <i class="bi bi-exclamation-circle"></i>
                     </span>
@@ -87,12 +87,12 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                     <div class="accordion accordion-flush" id="accordionFlushTitle${e.obj_id}">
                            <div class="accordion-item">
                             <h2 class="accordion-header title-accordion-header" id="flush-heading${e.obj_id}">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                <button class="accordion-button collapsed column-gap-2" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapse${e.obj_id}" aria-expanded="false"
                                     aria-controls="flush-collapse${e.obj_id}">
                                     ${e.obj.name}
                                 </button>
-                                <div class="btn-group d-flex column-gap-2" role="group" aria-label="Basic example">
+                                <div class="btn-group d-flex column-gap-2 d-none d-sm-flex" role="group" aria-label="Basic example">
                                     <a class="action-btn image-edit-btn btn icon btn-primary" href="/admin/titles/${e.content.url}"
                                         target="_blank">
                                         <i class="bi bi-pencil"></i>
@@ -101,7 +101,7 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                             </h2>
                             <div id="flush-collapse${e.obj_id}" class="accordion-collapse collapse"
                                 aria-labelledby="flush-collapse${e.obj_id}" data-bs-parent="#accordionFlushTitle${e.obj_id}">
-                                <div class="accordion-body">
+                                <div class="accordion-body px-0">
                                     <div class="swiper cover-swiper mx-0 mb-4" data-swiper-id="t${e.obj_id}">
                                         <div class="swiper-wrapper">
                                             ${covers}
@@ -138,7 +138,7 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_${e.obj.number}_${e.obj.translator.slug.replace(/\s/, "")}" aria-expanded="false" aria-controls="flush-collapse_${e.obj.number}_${e.obj.translator.slug.replace(/\s/, "")}">
                                 Глава ${e.obj.number} (переводчик ${e.obj.translator.name})
                             </button>
-                            <div class="btn-group d-flex column-gap-2" role="group" aria-label="Basic example">
+                            <div class="btn-group d-flex column-gap-2 d-none d-sm-flex" role="group" aria-label="Basic example">
                                 <a class="action-btn image-edit-btn btn icon btn-primary" href="/admin/titles/${e.content.url}/chapters/${e.obj.number}?translator=${e.obj.translator.slug.replace(/\s/, "")}" target="_blank">
                                     <i class="bi bi-pencil"></i>
                                 </a>
@@ -187,6 +187,9 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
                 initSwiper();
             }
             else {
+
+                console.log(e);
+
                 let elems = ""
 
                 e.obj.images.forEach(el => {
@@ -198,22 +201,30 @@ axios.get(`${api_url}/v1.0/auth/check`,).then((response) => {
 
                 let html = `
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-heading_${e.object.number}">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_${e.object.number}" aria-expanded="false" aria-controls="flush-collapse_${e.object.number}">
-                            Глава ${e.object.number} (переводчик ${e.obj.translator.name})
+                    <h2 class="accordion-header chapter-accordion-header" id="flush-heading_${e.obj.translator.id}${e.obj.number}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapse_${e.obj.translator.id}${e.obj.number}" aria-expanded="false"
+                            aria-controls="flush-collapse_${e.obj.translator.id}${e.obj.number}">
+                            Том ${e.obj.volume}. Глава ${e.obj.number}
                         </button>
+                        <div class="btn-group d-flex column-gap-2 d-none d-sm-flex" role="group" aria-label="Basic example">
+                            <a class="action-btn image-edit-btn btn icon btn-primary"
+                                href="/admin/titles/${e.object.url}" target="_blank">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </div>
                     </h2>
-                    <div id="flush-collapse_${e.object.number}" class="accordion-collapse collapse accordion-chapter" aria-labelledby="flush-collapse_${e.object.number}" data-bs-parent="#accordionFlushExample1">
-                        <div class="accordion-body accordion-chapter pt-0">
-                            <div class="swiper chapter-swiper w-100" data-swiper-id="${e.object.number}_${e.object.translator.name}">
+                    <div id="flush-collapse_${e.obj.translator.id}${e.obj.number}" class="accordion-collapse collapse accordion-collapse-chapter" aria-labelledby="flush-collapse_${e.obj.translator.id}${e.obj.number}" data-bs-parent="#accordionFlushExample1">
+                        <div class="accordion-body accordion-chapter px-0 pt-0">
+                            <div class="swiper w-100" data-swiper-id="${e.obj.translator.id}${e.obj.number}">
                                 <div class="swiper-wrapper">
                                     ${elems}
                                 </div>
-                                <div class="swiper-pagination swiper-pagination_${e.object.number}_${e.object.translator.name}"></div>
-                                <div class="swiper-button-prev swiper-button-prev_${e.object.number}_${e.object.translator.name}"></div>
-                                <div class="swiper-button-next swiper-button-next_${e.object.number}_${e.object.translator.name}"></div>
-                                <div class="swiper-scrollbar swiper-scrollbar_${e.object.number}_${e.object.translator.name}"></div>
+                                <div class="swiper-pagination swiper-pagination_${e.obj.translator.id}${e.obj.number}"></div>
+                                <div class="swiper-scrollbar swiper-scrollbar_${e.obj.translator.id}${e.obj.number}"></div>
                             </div>
+                            <div class="swiper-button-prev swiper-button-prev_${e.obj.translator.id}${e.obj.number}"></div>
+                            <div class="swiper-button-next swiper-button-next_${e.obj.translator.id}${e.obj.number}"></div>
                         </div>
                     </div>
                 </div>

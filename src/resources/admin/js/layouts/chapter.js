@@ -132,7 +132,6 @@ $(function () {
      * Удаление изображения
      */
     $("a.image-delete-btn").on("click", function () {
-
         let matches = location.pathname.match(/\/admin\/titles\/([a-zA-Z-_0-9]+)\/chapters\/(\d+)/);
         let title = matches[1];
         let chapter = matches[2];
@@ -151,11 +150,12 @@ $(function () {
                 }
                 axios.delete(`${import.meta.env.VITE_APP_API_URL}/v1.0/titles/${title}/chapters/${chapter}/images`, { params })
                     .then((response) => {
-                        Swal.fire("Saved!", "", "success");
+                        $(this).parents(".accordion-item").remove();
+                        Swal.fire("Изображение успешно удалено", "", "success");
                     })
                     .catch((error) => { });
             } else if (result.isDenied) {
-                Swal.fire("Changes are not saved", "", "info");
+                Swal.fire("Изображение не удалено", "", "info");
             }
         });
     });
