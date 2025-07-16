@@ -17,15 +17,26 @@ class IsAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $apiRequest = new ApiRequest();
-        $apiRequest->send($request, '/v1.0/auth/check', 'get');
+        $cookies = collect(explode("; ", $request->header('cookie')));
+        $cookieIndex = $cookies->search(function ($item) {
+            if (preg_match("/token=/", $item))
+                return $item;
+        });
 
-        if (!$apiRequest->response->ok() && $request->route()->getName() != 'admin.login')
-            return redirect()->route('admin.login');
-        else {
-            if ($apiRequest->response->ok() && $request->route()->getName() == 'admin.login')
-                return redirect()->route('admin.titles.index');
-        }
+        $token = preg_replace("/token=/", "", $cookies->get($cookieIndex));
+        // dd($token);
+
+        $request->headers->set('Authorization', 'Bearer ' . $token);
+
+        // $apiRequest = new ApiRequest();
+        // $apiRequest->send($request, '/v1.0/auth/check', 'get', bearerToken: $token);
+
+        // if (!$apiRequest->response->ok() && $request->route()->getName() != 'admin.login')
+        //     return redirect()->route('admin.login');
+        // else {
+        //     if ($apiRequest->response->ok() && $request->route()->getName() == 'admin.login')
+        //         return redirect()->route('admin.titles.index');
+        // }
 
         return $next($request);
     }

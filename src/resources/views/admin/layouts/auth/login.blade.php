@@ -18,9 +18,9 @@
                     <h1 class="auth-title">Авторизация</h1>
                     <p class="auth-subtitle mb-5"></p>
 
-                    <form id="login">
+                    <form method="POST" action="http://api.mangaspace.ru:83/v1.0/auth/login">
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" class="form-control form-control-xl" name="login" placeholder="Логин"
+                            <input type="text" class="form-control form-control-xl" name="name" placeholder="Логин"
                                 data-parsley-required="true">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
@@ -39,7 +39,8 @@
                                 Запомнить меня
                             </label>
                         </div>
-                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Авторизоваться</button>
+                        <button type="submit"
+                            class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Авторизоваться</button>
                     </form>
                     <div class="text-center mt-5 text-lg fs-4">
                         <p class="text-gray-600">Нет аккаунта? <a href="{{ route('admin.signup') }}"

@@ -5,7 +5,10 @@ use App\Http\Controllers\Admin\ChapterController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\ScraperController;
 use App\Http\Controllers\Admin\TitleController;
+use App\Http\Controllers\Oauth\OauthController;
 use App\Http\Middleware\IsAuthenticated;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')
@@ -28,3 +31,20 @@ Route::prefix('admin/scraper')
     ->group(function () {
         Route::get('/', [ScraperController::class, 'index'])->name('index');
     });
+
+Route::prefix('auth')->group(function () {
+    Route::get('redirect', [OauthController::class, 'redirect']);
+    Route::get('callback', [OauthController::class, 'callback']);
+});
+
+Route::get('/redirect', function () {
+
+    $query = http_build_query([
+        'client_id' => '9f63fed4-7546-4cb0-9cec-30ed5a36b7c6',
+        'redirect_uri' => 'http://mangaspace.ru:83/callback',
+        'response_type' => 'code',
+        'scope' => ''
+    ]);
+
+    return redirect('http://api.mangaspace.ru:83/oauth/authorize?' . $query);
+});

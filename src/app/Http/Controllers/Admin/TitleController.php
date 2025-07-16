@@ -21,6 +21,7 @@ class TitleController extends Controller
             "get",
             // parameters: ['page' => !isset($request->page) ? 1 : $request->page]
         );
+        dd($api->response);
         $titles = $api->response->json();
 
         $api->send($request, "/v1.0/users", "get", parameters: ['active' => 1]);

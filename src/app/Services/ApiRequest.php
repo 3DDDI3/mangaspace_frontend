@@ -23,9 +23,10 @@ class ApiRequest
      * @param array|null $parameters
      * @return void
      */
-    public function send(Request $request, string $url, string $method, ?string $accept = null, ?array $parameters = [])
+    public function send(Request $request, string $url, string $method, ?string $accept = null, ?array $parameters = [], string $bearerToken = null)
     {
         $this->response = Http::withHeaders([
+            'Authorization' => "Bearer {$request->bearerToken()}",
             'Accept' => $accept ?? "application/json",
             'Origin' => config('app.url'),
             'Cookie' => $request->header('cookie'),
