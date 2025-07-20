@@ -17,16 +17,16 @@ class IsAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $cookies = collect(explode("; ", $request->header('cookie')));
-        $cookieIndex = $cookies->search(function ($item) {
-            if (preg_match("/token=/", $item))
-                return $item;
-        });
+        // $cookies = collect(explode("; ", $request->header('cookie')));
+        // $cookieIndex = $cookies->search(function ($item) {
+        //     if (preg_match("/token=/", $item))
+        //         return $item;
+        // });
 
-        $token = preg_replace("/token=/", "", $cookies->get($cookieIndex));
-        // dd($token);
+        // $token = preg_replace("/token=/", "", $cookies->get($cookieIndex));
+        // // dd($token);
 
-        $request->headers->set('Authorization', 'Bearer ' . $token);
+        // $request->headers->set('Authorization', 'Bearer ' . $token);
 
         // $apiRequest = new ApiRequest();
         // $apiRequest->send($request, '/v1.0/auth/check', 'get', bearerToken: $token);

@@ -10,6 +10,7 @@ use App\Http\Middleware\IsAuthenticated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -37,14 +38,35 @@ Route::prefix('auth')->group(function () {
     Route::get('callback', [OauthController::class, 'callback']);
 });
 
-Route::get('/redirect', function () {
+Route::get('/redirect', function (Request $request) {
+    $request->session()->put('state', $state = Str::random(40));
 
     $query = http_build_query([
-        'client_id' => '9f63fed4-7546-4cb0-9cec-30ed5a36b7c6',
-        'redirect_uri' => 'http://mangaspace.ru:83/callback',
+        'client_id' => '9f7017ee-ae6f-4556-b68b-591a1dc60b17',
+        'redirect_uri' => 'http://mangaspace.ru:82/callback',
         'response_type' => 'code',
-        'scope' => ''
+        'scope' => '',
+        'state' => $state,
     ]);
 
     return redirect('http://api.mangaspace.ru:83/oauth/authorize?' . $query);
+});
+
+Route::get('/callback', function (Request $request) {
+    $state = $request->session()->pull('state');
+    throw_unless(
+        strlen($state) > 0 && $state === $request->state,
+        InvalidArgumentException::class,
+        'Invalid state value.'
+    );
+
+    $response = Http::asForm()->post('http://api.mangaspace.ru:83/oauth/token', [
+        'grant_type' => 'authorization_code',
+        'client_id' => '9f7017ee-ae6f-4556-b68b-591a1dc60b17',
+        'client_secret' => 'yHpTHprvgdswFjEyLm09umCInWWAldxlL6hNGWe8',
+        'redirect_uri' => 'http://mangaspace.ru:82/callback',
+        'code' => $request->code,
+    ]);
+
+    return $response->json();
 });
