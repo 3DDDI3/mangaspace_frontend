@@ -13,6 +13,8 @@ services:
       - ./configs/nginx.conf/:/etc/nginx/conf.d/default.conf:ro
       - ./src:/var/www/laravel
       - ../storage:/var/www/laravel/storage/app/
+    extra_hosts:
+      - "api.mangaspace.ru:127.0.0.1"
     networks:
       - frontend
 
@@ -42,32 +44,32 @@ services:
       - frontend
       - shared
 
-  # mysql:
-  #   container_name: fmysql
-  #   image: mysql:8.0
-  #   environment:
-  #     MYSQL_HOST: mysql
-  #     MYSQL_ROOT_PASSWORD: root
-  #     MYSQL_USER: laravel
-  #     MYSQL_PASSWORD: laravel
-  #   volumes:
-  #     - ./data/mysql:/var/lib/mysql
-  #   networks:
-  #     - frontend
-  #     - shared
+  mysql:
+    container_name: fmysql
+    image: mysql:8.0
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - frontend
+      - shared
 
-  # phpmyadmin:
-  #   container_name: fpma
-  #   image: phpmyadmin:5.2
-  #   ports:
-  #     - 8080:80
-  #   environment:
-  #     PMA_HOST: mysql
-  #     MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-  #     PMA_PORT: 3306
-  #   networks:
-  #     - frontend
-  #     - shared
+  phpmyadmin:
+    container_name: fpma
+    image: phpmyadmin:5.2
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      PMA_PORT: 3306
+    networks:
+      - frontend
+      - shared
 
   # redis:
   #   container_name: redis
@@ -122,8 +124,6 @@ services:
 
 networks:
   frontend:
-    driver: bridge
-  frontend_nginx:
     driver: bridge
   shared:
     driver: bridge
